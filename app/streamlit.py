@@ -42,7 +42,7 @@ async def run_convo():
     }
     </style>
     """, unsafe_allow_html=True)
-    st.markdown(""":orange[**Law | Ai | conversation | web search | realtime | image**]""", 
+    st.markdown(""":orange[**Law | Finance | Ai | Conversation | web search | Image generation**]""", 
                 unsafe_allow_html=True 
                 )
     # st.markdown("<p class='small-font'>정보를 요구하는 질문이 아닐 경우 일상 대화 chatbot 버전으로 사용할 수 있습니다.</p>",unsafe_allow_html=True)
