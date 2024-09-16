@@ -25,7 +25,6 @@ class Node:
         self.llm=llm_map[self.args.llm]
         # llm=llm_map["together"]
         self.fc = FunctionCall(self.llm)
-        self.completion=Completion(self.llm)
         
         model_type = str(type(self.llm))
         self.model_type = model_type[model_type.find("'")+1:model_type.rfind("'")]
@@ -65,6 +64,8 @@ class Node:
         query=state["query"]
         action=state["action"]
         observation=state["observation"]
+
+        self.completion=Completion(self.llm)
 
         if "image_generation" in action: 
             response,observation=observation,""
