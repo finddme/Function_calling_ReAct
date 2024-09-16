@@ -48,5 +48,6 @@ def reranker_cohere(query,documents_co,weaviate_class):
     return final_res
 
 def filter_sentences(text):
-    pattern = r'^(?:[A-Za-z\u3131-\u318E\uAC00-\uD7A3\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0020-\u007E]+$|$)'
+    # pattern = r'^(?:[A-Za-z\u3131-\u318E\uAC00-\uD7A3\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0020-\u007E]+$|$)'
+    pattern =r'^(?:[A-Za-z0-9\u3131-\u318E\uAC00-\uD7A3\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0020-\u007E\u2460-\u2473\n]+$|$)'
     return '\n'.join(line for line in text.split('\n') if re.match(pattern, line))
