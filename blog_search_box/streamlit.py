@@ -30,7 +30,7 @@ async def run_convo():
     </style>
     """, unsafe_allow_html=True)
     st.markdown("""**검색어를 입력하세요.**\\
-                :orange[**Law | Ai | conversation | web search | realtime | image generation**]""", 
+                :orange[**Law | Finance | Ai | Conversation | web search | Image generation**]""", 
                 unsafe_allow_html=True 
                 )
     user_input = st.text_input('')
@@ -42,26 +42,14 @@ async def run_convo():
                 try:
                     answer = response.json()['output']
                     agent = response.json()['agent'][0]
-                    react_res=response.json()['react_res']
-
-                    if len(react_res)!=0:
-                        replacements={"\\n":"\n",
-                            "\n":"",
-                            "\n\n":"",
-                            "Thought":"================>            **Thought**",
-                            "Answer":"================>            **Answer**",
-                            "Action":"================>            **Action**",
-                            "Observation":"================>            **Observation**"}
-                        replace_func = lambda text: reduce(lambda t, kv: t.replace(kv[0], kv[1]), replacements.items(), text)
-                        react_res = replace_func(react_res)
-                    else:pass
+                    observation=response.json()['observation']
                     
-                    result=f"""**Agent: [{agent.title()}]**\\
+                    result=f"""**Action: [{agent.title()}]**\\
                             \\
                             {answer}\\
                             ----------------------------------------------------\\
-                            **ReAct trajectory**\\
-                            <p class='small-font'>{react_res}<\p>
+                            **Observation**\\
+                            <p class='small-font'>{observation}<\p>
                             """
                     st.markdown(result,unsafe_allow_html=True)
 
