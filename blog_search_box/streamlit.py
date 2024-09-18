@@ -65,7 +65,7 @@ async def run_convo():
                     for l in log:
                         result+=f"{l}"
                         result+=f"<br>"
-                    result+="<\p>"
+                    # result+="<\p>"
                     st.markdown(result,unsafe_allow_html=True)
 
                 except Exception as e:
