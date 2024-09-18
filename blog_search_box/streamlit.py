@@ -60,9 +60,12 @@ async def run_convo():
                             =====================================================================\\
                             **LOG**\\
                             \\
+                            <p class='small-font'>
                             """
                     for l in log:
-                        result+=f"{l}\\"
+                        result+=f"{l}"
+                        result+=f"<br>"
+                    result+="<\p>"
                     st.markdown(result,unsafe_allow_html=True)
 
                 except Exception as e:
