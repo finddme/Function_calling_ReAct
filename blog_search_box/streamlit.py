@@ -43,7 +43,7 @@ async def run_convo():
                     answer = response.json()['output']
                     agent = response.json()['agent'][0]
                     observation=response.json()['observation']
-                    # log=response.json()['log']
+                    log=response.json()['log']
                     
                     # result=f"""**Action: [{agent.title()}]**\\
                     #         \\
@@ -55,7 +55,12 @@ async def run_convo():
                     
                     result=f"""**Action: [{agent.title()}]**\\
                             \\
-                            {answer}
+                            {answer}\\
+                            =====================================================================\\
+                            =====================================================================\\
+                            **LOG**\\
+                            \\
+                            {log}
                             """
                     st.markdown(result,unsafe_allow_html=True)
 
