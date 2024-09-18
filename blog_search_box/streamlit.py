@@ -49,7 +49,7 @@ async def run_convo():
                             \\
                             {answer}\\
                             ----------------------------------------------------\\
-                            **Observation**\\
+                            **Inference LOG**\\
                             <p class='small-font'>{log}<\p>
                             """
                     st.markdown(result,unsafe_allow_html=True)
