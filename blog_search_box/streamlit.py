@@ -63,7 +63,9 @@ async def run_convo():
                             <p class='small-font'>
                             """
                     for l in log:
-                        result+=f"{l}"
+                        if "[INFO] Response:" in l: pass
+                        else:
+                            result+=f"{l}"
                         result+=f"<br>"
                     # result+="<\p>"
                     st.markdown(result,unsafe_allow_html=True)
