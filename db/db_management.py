@@ -7,7 +7,7 @@ import openai
 import os
 import argparse
 import json
-from .data_processing import crawling_and_processing
+from db.data_processing import crawling_and_processing
 
 known_class=DB["known_class"]
 weaviate_url=DB["weaviate_url"]
@@ -86,9 +86,18 @@ def ai_db_reload_auto():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--class-name', type=str, default='law')
-    parser.add_argument('--data-path', type=str, default="/workspace/.gen/Crawler/Law/law_final_data.json")
-    parser.add_argument('--vectorizing-element', type=str, default='law_content')
+    parser.add_argument('--class-name', type=str, 
+                        choices=["law",
+                                "law_consult"], 
+                        default='law_consult')
+    parser.add_argument('--data-path', type=str, 
+                        choices=["/workspace/.gen/Crawler/Law/law_final_data.json", 
+                                "/workspace/.gen/Crawler/Law/law_consult_crawling/extract_str_laws_consult.json"], 
+                        default="/workspace/.gen/Crawler/Law/law_consult_crawling/extract_str_laws_consult.json")
+    parser.add_argument('--vectorizing-element', type=str, 
+                        choices=["law_content",
+                                "title"],
+                        default='title')
 
     args = parser.parse_args()
     db_processing(args.class_name,args.data_path,args.vectorizing_element)

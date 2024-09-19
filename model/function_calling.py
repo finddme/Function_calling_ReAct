@@ -7,7 +7,7 @@ from .processor import Processing
 from utils.config import *
 
 class FunctionCall(Model):
-    def __init__(self, llm):
+    def __init__(self, llm, today):
         super().__init__(FunctionCall)
         self.llm = llm
         self.model=Model(self.llm)
@@ -18,7 +18,7 @@ class FunctionCall(Model):
         setting=Setting(self.model.model_type,include_action)
         processing=Processing(self.model.model_type)
         self.functions,self.toolprompt=setting()
-        self.system_prompt=processing.prompt_processing(self.functions,self.toolprompt)
+        self.system_prompt=processing.prompt_processing(self.functions,self.toolprompt, today)
     
     def __call__(self, message, cnt: int = 0):
         self.messages.append({"role": "system", "content": self.system_prompt})

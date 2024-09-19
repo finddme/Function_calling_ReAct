@@ -9,6 +9,7 @@ class GraphState(TypedDict):
     action : List[str]
     observation : List[str]
     generate: str
+    log: List[str]
 
 
 class keyword(BaseModel):

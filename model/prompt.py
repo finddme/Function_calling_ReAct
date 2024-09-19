@@ -22,9 +22,12 @@ Communicate only in Korean and engage in a natural, casual conversation on every
 3. Ensure the conversation flows smoothly by asking appropriate follow-up questions to maintain engagement.
 
 """
+
 basic_toolprompt = """
 Select the tool to use in order to answer the user's question.
 Your available Tools are: {}
+
+Today Date: {}
 
 # Tool Instructions
 - You must select exactly one tool. You can choose multiple tools.
@@ -37,6 +40,8 @@ You have access to the following functions:
 llama_toolprompt = """
 Select the tool to use in order to answer the user's question.
 Your available Tools are: {}
+
+Today Date: {}
 
 # Tool Instructions
 - You must select exactly one tool. You can choose multiple tools.

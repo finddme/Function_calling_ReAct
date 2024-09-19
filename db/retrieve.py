@@ -27,6 +27,10 @@ def reranker_cohere(query,documents_co,weaviate_class):
     if weaviate_class=="Law":
         documents=[r["full_content"] for r in documents_co["data"]["Get"][weaviate_class]]
         documents=list(dict.fromkeys(documents))
+    elif weaviate_class=="Law_consult":
+        documents=[r["answer"] for r in documents_co["data"]["Get"][weaviate_class]]
+        if len(documents)==0:documents=documents[0]
+        documents=list(dict.fromkeys(documents))
     else:
         documents=[r["text"] for r in documents_co["data"]["Get"][weaviate_class]]
         source=[{"source_title":r["source_title"],"source":r["source"]} for r in documents_co["data"]["Get"][weaviate_class]]
@@ -46,6 +50,26 @@ def reranker_cohere(query,documents_co,weaviate_class):
     final_res=filter_sentences(doc_txt)
     
     return final_res
+
+def reranker_cohere_basic(query,documents,rank_key):
+    global co
+    print("--- RERANK ---")
+
+    documents_keylist=[d[rank_key] for d in documents]
+
+    rerank_res = co.rerank(
+        model="rerank-multilingual-v3.0",
+        query=query,
+        documents=documents_keylist, 
+        top_n=4, 
+    )
+    
+    doc_txt = ""
+    
+    for idx,result in enumerate(rerank_res.results):
+        doc_txt += f"{documents[result.index]} \n"
+    
+    return doc_txt
 
 def filter_sentences(text):
     # pattern = r'^(?:[A-Za-z\u3131-\u318E\uAC00-\uD7A3\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u0020-\u007E]+$|$)'

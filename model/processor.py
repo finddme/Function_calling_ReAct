@@ -7,7 +7,7 @@ class Processing:
         self.model_type=model_type
         self.call_res=[]
 
-    def prompt_processing(self,functions,toolprompt):
+    def prompt_processing(self,functions,toolprompt,today):
         tool_info_inject=""
         names=""
         for lf in functions:
@@ -15,7 +15,7 @@ class Processing:
                 names+=f"""{lf["name"]},"""
             else:
                 names+=f"""{lf["function"]["name"]},"""   
-        toolprompt=toolprompt.format(names,functions)
+        toolprompt=toolprompt.format(names,today,functions)
         return toolprompt
     def postprocessing(self,user_messages,response_message):
         fn_pattern=r'<function=(\w+)>'

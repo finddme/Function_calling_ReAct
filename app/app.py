@@ -79,7 +79,8 @@ async def app(args):
             result = {
                 "output": res["generate"],
                 "agent": res["action"],
-                "observation":res["observation"]
+                "observation":res["observation"],
+                "log":res["log"]
             }
             return result
 

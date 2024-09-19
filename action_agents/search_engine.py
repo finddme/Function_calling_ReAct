@@ -1,16 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import quote
+import urllib.parse
 import datetime
 import re
 from tavily import TavilyClient
 from langchain.schema import Document
-# from model.model_prep import tavily_engine
+from utils.config import *
 import httpx
 import json
 import http.client
 from langchain_community.retrievers import ArxivRetriever
 from model.models import tavily_engine
+from utils.config import state_name_list, states_bank
+from functools import reduce
 
 tavily_client=tavily_engine()
 
@@ -180,8 +183,13 @@ class NAVER_NEWS:
         res=[]
         news_titles,news_contents,news_release_date,naver_news_links= self.get_news_with_query(keyword)
         crawling_res= self.get_news(news_titles,news_contents,news_release_date,naver_news_links)
-        for idx,c in enumerate(crawling_res):
+        for idx,c in enumerate(crawling_res):# search result number control
             if idx==0:return c
+        #     if idx<5:
+        #         res.append(c)
+        # return res
+
+class NAVER_FINANCE:
     @staticmethod
     def finance():
         news_res=[]
@@ -200,9 +208,32 @@ class NAVER_NEWS:
 
         for idx,(t,c) in enumerate(zip(news_titles,news_contents)):
             if idx <5:
-                news_res.append({'title': t, 'article_source': c})
+                news_res.append({'title': f"[최근 금융 시장 주요 뉴스] {t}", 'article_source': c})
         
         return news_res
+
+    @staticmethod
+    def finance_search(query):
+        search_res=[]
+
+        replacements={"\t":"",
+                    "\n":""}
+        replace_func = lambda text: reduce(lambda t, kv: t.replace(kv[0], kv[1]), replacements.items(), text)
+
+
+        query=urllib.parse.quote(query.encode('euc-kr'))
+        url=f"https://finance.naver.com/news/news_search.naver?q={query}"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        for news in soup.find_all(class_='newsList'):
+            article_subject=news.find_all('dd',{"class":"articleSubject"})
+            article_summary=news.find_all('dd',{"class":"articleSummary"})
+            for idx,(sub,sum) in enumerate(zip(article_subject,article_summary)):
+                if idx <5:
+                    search_res.append({"title":replace_func(sub.get_text().strip()), "article_source":replace_func(sum.get_text())})
+        return search_res
+
 
     @staticmethod
     def finance_sise_top():
@@ -282,3 +313,83 @@ class NAVER_NEWS:
                 'Percentage Change': percentage_change
             })
         return index_data
+
+    @staticmethod
+    def kor_base_interest_rate():
+        url=f"https://search.naver.com/search.naver?sm=tab_sug.top&where=nexearch&ssc=tab.nx.all&query=%ED%95%9C%EA%B5%AD+%EA%B8%B0%EC%A4%80%EA%B8%88%EB%A6%AC+%EC%B6%94%EC%9D%B4&oquery=%EA%B8%B0%EC%A4%80%EA%B8%88%EB%A6%AC&tqi=ir78KsqptbNssDJYcJGssssss5N-333521&acq=%EA%B8%B0%EC%A4%80%EA%B8%88%EB%A6%AC%EC%B6%94%EC%9D%B4&acr=4&qdt=0"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        base_interest_rate=[]
+        base_interest_rate_final=[]
+        def parse_page(soup):
+            for infos in soup.find_all(class_='cont_info'):
+                info_list=infos.find_all('span',{"class":"text"})
+                for info in info_list:
+                    base_interest_rate.append(info.get_text().strip())
+
+        parse_page(soup)
+
+        for i in range(0, len(base_interest_rate), 3):
+            base_interest_rate_final.append(base_interest_rate[i:i+3])
+
+        final_res=""
+        for r in base_interest_rate_final[1:]:
+            txt=f"{r[0]} 기준 금리 {r[1]}"
+            if r[2] == "-": txt += " 변동 없음"
+            else: txt += r[2]
+            final_res+= f"{txt}\n"
+        
+        return final_res
+
+    @staticmethod
+    def global_base_interest_rate(keyword):
+        def find_state(keyword):
+            key_list=[]
+            for key, values in state_name_list.items():
+                for value in values:
+                    if value in keyword:
+                        key_list.append(key)
+            if len(key_list)!=0:
+                return key_list
+            else:
+                return None
+
+        global_base_interest_rate_final=[]
+        def parse_page(soup):
+            base_interest_rate=[]
+            for infos in soup.find_all(class_='cont_info'):
+                info_list=infos.find_all('span',{"class":"text"})
+                for info in info_list:
+                    base_interest_rate.append(info.get_text().strip())
+            return base_interest_rate
+            
+        states=find_state(keyword)
+        if states:
+            for state in states:
+                state_bank=states_bank[state]
+                try:
+                    query=quote(state_bank)
+                    url=f"https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query={query}"
+                    response = requests.get(url)
+                    soup = BeautifulSoup(response.text, 'html.parser')
+                
+                    base_interest_rate=[]
+                    base_interest_rate_final=[]
+                    base_interest_rate=parse_page(soup)
+        
+                    for i in range(0, len(base_interest_rate), 3):
+                        base_interest_rate_final.append(base_interest_rate[i:i+3])
+                
+                    final_res=""
+                    for r in base_interest_rate_final[1:]:
+                        txt=f"{r[0]} 기준 금리 {r[1]}"
+                        if r[2] == "-": txt += " 변동 없음"
+                        else: txt += r[2]
+                        final_res+= f"{txt}\n"
+                    if final_res=="":pass
+                    else:
+                        global_base_interest_rate_final.append({"state":state,"interest_rate":final_res})
+                except Exception as e: pass
+
+        return global_base_interest_rate_final

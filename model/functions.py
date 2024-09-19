@@ -17,8 +17,8 @@ basic_function_list = {"web_search":
                                                 },
                                                 "search_query": {
                                                     "type": "string",
-                                                    "description":  """A search query that contains the core meaning of the user's question.
-                                                    Search query must be written as a fully complete Korean sentence.""",
+                                                    "description": """Rephrase the user's question to be more general and easier to answer, while retaining the key points. 
+                                                            Rephrase must be written as a fully complete Korean sentence.""",
                                                 }
                                             },
                                             "required": ["search_tool","search_query"],
@@ -56,8 +56,9 @@ basic_function_list = {"web_search":
                                                 "properties": {
                                                     "search_query": {
                                                         "type": "string",
-                                                        "description":  """A search query that contains the core meaning of the user's question. 
-                                                        Search query must be written as a fully complete Korean sentence.""",
+                                                        "description":  """Rephrase given question into a more general form that is easier to answer.  
+                                                        Rephrase should contains the core meaning of the user's question. 
+                                                        Rephrase must be written as a fully complete Korean sentence.""",
                                                     }
                                                 },
                                                 "required": ["search_query"],
@@ -74,8 +75,13 @@ basic_function_list = {"web_search":
                                                     "properties": {
                                                         "search_query": {
                                                             "type": "string",
-                                                            "description":  """A search query that contains the core meaning of the user's question.
-                                                            Search query must be written as a fully complete Korean sentence.""",
+                                                            "description":  """Rephrase given question into a more general form that is easier to answer. 
+                                                            Rephrase must be written as a fully complete Korean sentence.
+
+                                                            ### Example
+                                                            Question: I smoked in the alley in front of the company. Is that illegal? There wasn't a sign saying it was a no-smoking area.
+                                                            Rephrase: Is it illegal to smoke on a street that doesn't have a no-smoking sign?
+                                                            """,
                                                         }
                                                     },
                                                     "required": ["search_query"],
@@ -124,8 +130,8 @@ claude_function_list = {"web_search":
                                                 },
                                                 "search_query": {
                                                     "type": "string",
-                                                            "description":  """A search query that contains the core meaning of the user's question. 
-                                                            Search query must be written as a fully complete Korean sentence.""",
+                                                            "description": """Rephrase the user's question to be more general and easier to answer, while retaining the key points. 
+                                                            Rephrase must be written as a fully complete Korean sentence.""",
                                                 }
                                             },
                                             "required": ["search_tool","search_query"]
@@ -158,8 +164,9 @@ claude_function_list = {"web_search":
                                                     "properties": {
                                                         "search_query": {
                                                             "type": "string",
-                                                                    "description":  """A search query that contains the core meaning of the user's question. 
-                                                                    Search query must be written as a fully complete Korean sentence.""",
+                                                            "description":  """Rephrase given question into a more general form that is easier to answer.  
+                                                            Rephrase should contains the core meaning of the user's question. 
+                                                            Rephrase must be written as a fully complete Korean sentence.""",
                                                         }
                                                     },
                                                     "required": ["search_query"]
@@ -174,8 +181,13 @@ claude_function_list = {"web_search":
                                                     "properties": {
                                                         "search_query": {
                                                             "type": "string",
-                                                                    "description":  """A search query that contains the core meaning of the user's question. 
-                                                                    Search query must be written as a fully complete Korean sentence.""",
+                                                            "description":  """Rephrase given question into a more general form that is easier to answer. 
+                                                            Rephrase must be written as a fully complete Korean sentence.
+
+                                                            ### Example
+                                                            Question: I smoked in the alley in front of the company. Is that illegal? There wasn't a sign saying it was a no-smoking area.
+                                                            Rephrase: Is it illegal to smoke on a street that doesn't have a no-smoking sign?
+                                                            """,
                                                         }
                                                     },
                                                     "required": ["search_query"]
@@ -221,8 +233,8 @@ llama_function_list = {"web_search":
                                             },
                                                 "search_query": {
                                                     "type": "string",
-                                                            "description":  """A search query that contains the core meaning of the user's question. 
-                                                            Search query must be written as a fully complete Korean sentence.""",
+                                                            "description": """Rephrase the user's question to be more general and easier to answer, while retaining the key points. 
+                                                            Rephrase must be written as a fully complete Korean sentence.""",
                                                 }
                                         },
                                         "required": ["search_tool","search_query"]
@@ -255,8 +267,9 @@ llama_function_list = {"web_search":
                                                 "properties": {
                                                     "search_query": {
                                                         "type": "string",
-                                                                "description":  """A search query that contains the core meaning of the user's question. 
-                                                                Search query must be written as a fully complete Korean sentence.""",
+                                                        "description":  """Rephrase given question into a more general form that is easier to answer.  
+                                                        Rephrase should contains the core meaning of the user's question. 
+                                                        Rephrase must be written as a fully complete Korean sentence.""",
                                                     }
                                                 },
                                                 "required": ["search_query"]
@@ -271,8 +284,13 @@ llama_function_list = {"web_search":
                                                 "properties": {
                                                     "search_query": {
                                                         "type": "string",
-                                                                "description":  """A search query that contains the core meaning of the user's question. 
-                                                                Search query must be written as a fully complete Korean sentence.""",
+                                                                "description":  """Rephrase given question into a more general form that is easier to answer. 
+                                                                Rephrase must be written as a fully complete Korean sentence.
+
+                                                                ### Example
+                                                                Question: I smoked in the alley in front of the company. Is that illegal? There wasn't a sign saying it was a no-smoking area.
+                                                                Rephrase: Is it illegal to smoke on a street that doesn't have a no-smoking sign?
+                                                                """,
                                                     }
                                                 },
                                                 "required": ["search_query"]

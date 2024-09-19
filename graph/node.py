@@ -3,7 +3,12 @@ from utils.map import *
 from model.prompt import *
 from model.function_calling import FunctionCall
 from model.completion import Completion
-from utils.logger import logger
+from utils.logging_wrapper import LoggingWrapper
+from datetime import datetime
+
+logger = LoggingWrapper('ayaan_logger')
+logger.add_file_handler("info")
+logger.add_stream_handler("error")
 
 class Node:
     def __init__(self,args):
@@ -11,6 +16,7 @@ class Node:
         global system_prompt
         global normal_completion_prompt
         global llm_map
+        global log_system
 
         self.args=args
         if self.args.image=="model":
@@ -24,17 +30,27 @@ class Node:
 
         self.llm=llm_map[self.args.llm]
         # llm=llm_map["together"]
-        self.fc = FunctionCall(self.llm)
+        # self.fc = FunctionCall(self.llm)
         
         model_type = str(type(self.llm))
         self.model_type = model_type[model_type.find("'")+1:model_type.rfind("'")]
-        logger.info(f"Model Type: {self.model_type}")
 
     def function_call_node(self,state):
         query=state["query"]
+
+        today = datetime.today().strftime('%d %B %Y')
+
+        self.fc = FunctionCall(self.llm, today)
         fc_res=self.fc(query)
+
+        logger.info(f"Model Type: {self.model_type}")
+        
+        self.log_list=[]
+        logger.add_list_handler(self.log_list,"info")
+
         logger.info(f"User Query: {query}")
         logger.info(f"Funtion Call result: {fc_res}")
+
         return {"query":query, "action":fc_res}
 
     def action_node(self,state):
@@ -66,23 +82,35 @@ class Node:
         observation=state["observation"]
 
         self.completion=Completion(self.llm)
-
-        if "image_generation" in action: 
-            response,observation=observation,""
-            logger.info(f"Observation: {observation}")
-            pass
-        else:
-            for a in action:
-                if a != "casual_conversation":
-                    prompt=system_prompt.format(observation)
-                else:
-                    if self.model_type=="anthropic.Anthropic":
-                        query=f"User's question: {query} \n{normal_completion_prompt}"
-                    prompt=normal_completion_prompt
-            response=self.completion(query,prompt)
         
-            logger.info(f"Observation: {observation}")
-            logger.info(f"Response: {response}")
-            logger.info(f"==============================================================\n")
+        try:
+            if "image_generation" in action: 
+                response,observation=observation,""
 
-        return {"query":query, "action":action, "observation": observation, "generate":response}
+                logger.info(f"Observation: {observation}")
+
+                pass
+            else:
+                for a in action:
+                    if a != "casual_conversation":
+                        prompt=system_prompt.format(observation)
+                    else:
+                        if self.model_type=="anthropic.Anthropic":
+                            query=f"User's question: {query} \n{normal_completion_prompt}"
+                        prompt=normal_completion_prompt
+                response=self.completion(query,prompt)
+            
+                logger.info(f"Observation: {observation}")
+                logger.info(f"Response: {response}")
+
+        except Exception  as e:
+            response=self.completion(query,normal_completion_prompt)
+
+            logger.info(f"////////////\n")
+            logger.info(f"Exception: {e}")
+            logger.info(f"Response: {response}")
+            logger.info(f"////////////\n")
+        
+        logger.info(f"==============================================================\n")
+
+        return {"query":query, "action":action, "observation": observation, "generate":response, "log": self.log_list}
