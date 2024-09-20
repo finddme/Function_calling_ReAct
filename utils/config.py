@@ -24,6 +24,12 @@ DB={"known_class":["b_with_title","law"],
 IMAGE={"image_model":"black-forest-labs/FLUX.1-schnell",
     "image_gen_endpoint":"http://115.71.28.105:8782/genrate_image"}
 
+additional_phrase={"korea_news_search":"", 
+        "global_news_search":"", 
+        "financial_market_search": "\n\n\n ※ 정확한 금융 지식 및 투자 정보는 금융 전문가에게 문의하는 것을 추천드립니다. ",
+        "ai_related_search": "",
+       "legal_related_search": "\n\n\n ※ 정확한 법률 지식 및 법률 상담은 법률 전문가에게 문의하는 것을 추천드립니다."}
+
 state_name_list={"미국":["미국", "USA", "America", "US"], 
                 "유럽":["Europe", "유럽",    "알바니아", "안도라", "아르메니아", "오스트리아", "아제르바이잔", "벨라루스", "벨기에",
                         "보스니아 헤르체고비나", "불가리아", "크로아티아", "키프로스", "체코",
