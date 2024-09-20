@@ -94,11 +94,14 @@ class Node:
                 for a in action:
                     if a != "casual_conversation":
                         prompt=system_prompt.format(observation)
+                        # prompt=reflection_prompt.format(query,observation)
                     else:
                         if self.model_type=="anthropic.Anthropic":
                             query=f"User's question: {query} \n{normal_completion_prompt}"
                         prompt=normal_completion_prompt
                 response=self.completion(query,prompt)
+
+                response+=additional_phrase[a]             
             
                 logger.info(f"Observation: {observation}")
                 logger.info(f"Response: {response}")
