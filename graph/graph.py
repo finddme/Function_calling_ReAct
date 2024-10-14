@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field,model_serializer
 from pydantic import TypeAdapter
 from typing import List
 from utils.formats import GraphState
+from db.db_management import ai_db_reload_auto
 
 class Graph:
     def __init__(self,args):
