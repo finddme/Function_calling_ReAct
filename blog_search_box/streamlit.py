@@ -12,7 +12,7 @@ import io
 from functools import reduce
 
 async def get_response(user_input):
-    client="http://eleven.acryl.ai:37808/chat"
+    client="https://0240-220-117-175-177.ngrok-free.app/chat"
     headers = { 'Content-Type': 'application/json' }
     user_input={"user_input": user_input}
     response = requests.request("POST", client , headers=headers, data=json.dumps(user_input))
