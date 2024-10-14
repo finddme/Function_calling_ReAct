@@ -17,6 +17,7 @@ import io
 from io import BytesIO
 from PIL import Image
 from utils.formats import UserInput
+from pyngrok import conf, ngrok
 
 class ConnectionManager:
     """Web socket connection manager."""
@@ -83,6 +84,12 @@ async def app(args):
                 "log":res["log"]
             }
             return result
+
+    conf.get_default().region = "eu"
+    http_tunnel = ngrok.connect(7808) 
+    tunnels = ngrok.get_tunnels() 
+    for kk in tunnels: 
+        print(kk)
 
     config = uvicorn.Config(fast_api_app, host="0.0.0.0", port=7808)
     server = uvicorn.Server(config)
