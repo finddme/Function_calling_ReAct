@@ -18,54 +18,63 @@ class ListHandler(logging.Handler):
 
 class LoggingWrapper:
   def __init__(self, name):
-    self.m_logger = logging.getLogger(name)
+      self.m_logger = logging.getLogger(name)
+      
+      self.basic_level = logging.INFO
+      self.basic_formatter = '[%(asctime)s] [%(levelname)s] %(message)s'
+      self.basic_file_max_bytes = 10 * 1024 * 1024  # 10MB
+      self.basic_file_max_count = 10
 
-    self.basic_level = logging.INFO
-    self.basic_formatter ='[%(asctime)s] [%(levelname)s] %(message)s'
-    self.basic_file_max_bytes = 10 * 1024 * 1024 # 10MB
-    self.basic_file_max_count = 10
+      self.m_logger.setLevel(logging.DEBUG)
+      self.m_logger.propagate = False
 
-    self.m_logger.setLevel(logging.DEBUG)
+      self.log_dir = "logs"
+      if not os.path.exists(self.log_dir):
+          os.makedirs(self.log_dir)
 
-    self.m_logger.propagate = False
-
-    self.log_dir="logs"
-    if not os.path.exists(self.log_dir):
-        os.makedirs(self.log_dir)
-
-    self.level_map={"info":logging.INFO,
-    "error":logging.ERROR,
-    "warning":logging.WARNING,
-    "debug":logging.DEBUG,
-    "critical":logging.CRITICAL}
+      self.level_map = {
+          "info": logging.INFO,
+          "error": logging.ERROR,
+          "warning": logging.WARNING,
+          "debug": logging.DEBUG,
+          "critical": logging.CRITICAL
+      }
 
   def add_file_handler(self, level=None, formatter=None):
-      """ Add new file handler to logger.
-      """
+      """ Add new file handler to logger. """
 
+      # Generate log filename based on the current date
+      current_date = datetime.datetime.now().strftime('%Y-%m-%d')
       if level is None:
-          level = "info"
-      
-      level_name = level
-      level = self.level_map.get(level.lower(), self.basic_level)
+          level = self.basic_level
+      else:
+          level = self.level_map[level]
 
       if formatter is None:
           formatter = self.basic_formatter
 
-      log_filename_format = os.path.join(self.log_dir, f"{level_name}_%Y-%m-%d.log")
+      info_filename = f"info_{current_date}.log"
+      log_filename_format = os.path.join(self.log_dir, info_filename)
 
+      # Use TimedRotatingFileHandler with no suffix, and a fresh log file daily
       file_handler = TimedRotatingFileHandler(
-          filename=log_filename_format,
-          when="midnight",
-          interval=1,
-          encoding="utf-8"
+          log_filename_format, 
+          when="midnight", 
+          interval=1, 
+          backupCount=self.basic_file_max_count, 
+          encoding='utf-8', 
+          utc=False
       )
-      file_handler.suffix = "%Y-%m-%d"
-      file_handler.setLevel(level)
       
+      # Ensure a fresh filename by not allowing a suffix
+      file_handler.namer = None  # Remove suffix
+
+      # Set level and formatter for the handler
+      file_handler.setLevel(level)
       formatter = logging.Formatter(formatter)
       file_handler.setFormatter(formatter)
 
+      # Add the file handler to the logger
       self.m_logger.addHandler(file_handler)
 
 
