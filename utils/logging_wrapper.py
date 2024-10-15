@@ -40,35 +40,33 @@ class LoggingWrapper:
     "critical":logging.CRITICAL}
 
   def add_file_handler(self, level=None, formatter=None):
-    """ Add new file handler to logger.
-    """
+      """ Add new file handler to logger.
+      """
 
-    info_filename = (
-        f"{level}_"
-        + datetime.datetime.now().strftime('%Y-%m-%d')
-        + ".log"
-    )
-    log_filename_format = os.path.join(self.log_dir, info_filename)
+      if level is None:
+          level = "info"
+      
+      level_name = level
+      level = self.level_map.get(level.lower(), self.basic_level)
 
-    if level == None:
-      level = self.basic_level
-    else:level=self.level_map[level]
+      if formatter is None:
+          formatter = self.basic_formatter
 
-    if formatter == None:
-      formatter = self.basic_formatter
+      log_filename_format = os.path.join(self.log_dir, f"{level_name}_%Y-%m-%d.log")
 
-    # file_handler = RotatingFileHandler(
-    #   filename=path,
-    #   maxBytes=self.basic_file_max_bytes,
-    #   backupCount=self.basic_file_max_count)
+      file_handler = TimedRotatingFileHandler(
+          filename=log_filename_format,
+          when="midnight",
+          interval=1,
+          encoding="utf-8"
+      )
+      file_handler.suffix = "%Y-%m-%d"
+      file_handler.setLevel(level)
+      
+      formatter = logging.Formatter(formatter)
+      file_handler.setFormatter(formatter)
 
-    file_handler=TimedRotatingFileHandler(log_filename_format, when="midnight", interval=1)
-
-    file_handler.setLevel(level)
-    formatter = logging.Formatter(formatter)
-    file_handler.setFormatter(formatter)
-
-    self.m_logger.addHandler(file_handler)
+      self.m_logger.addHandler(file_handler)
 
 
   def add_stream_handler(self, level=None, stream=None, formatter=None):
