@@ -12,7 +12,7 @@
 
 ### Pipeline 
 
-<center><img width="1000" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
+<center><img width="800" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
 <center><em style="color:gray;">Illustrated by the author</em></center><br>
 
 ### Start app
@@ -32,7 +32,7 @@ streamlit run streamlit.py
   
 ### Pipeline 
 
-<center><img width="1000" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
+<center><img width="800" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
 <center><em style="color:gray;">Illustrated by the author</em></center><br>
 
 ### Start app
