@@ -66,26 +66,29 @@ async def app(args):
     @fast_api_app.post("/chat")
     async def api(user_input: UserInput):
         user_input=user_input.user_input
-        return StreamingResponse(
+        response = StreamingResponse(
                                 RUN(args).run(user_input),
                                 media_type="text/plain"
                                 )
-
+        response.headers["Cache-Control"] ="no-cache"
+        return response
     # conf.get_default().region = "eu"
     # http_tunnel = ngrok.connect(7808) 
     # tunnels = ngrok.get_tunnels() 
     # for kk in tunnels: 
     #     print(kk)
 
-    config = uvicorn.Config(fast_api_app, host="0.0.0.0", port=7807)
+    config = uvicorn.Config(fast_api_app, host="0.0.0.0", port=7808)
     server = uvicorn.Server(config)
     await asyncio.to_thread(server.run)
 
     @fast_api_app.post("/chat-sse")
     async def api_sse(user_input: UserInput):
         user_input=user_input.user_input
-        return StreamingResponse(
+        response=StreamingResponse(
                                 RUN(args).run(user_input),
                                 media_type="text/event-stream"
                                 )
+        response.headers["Cache-Control"] ="no-cache"
+        return response
 
