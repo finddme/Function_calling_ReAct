@@ -27,66 +27,6 @@ import asyncio
 import io
 import aiohttp
 
-# async def get_response(user_input):
-#     print("user_input", user_input)
-#     client = "http://192.168.2.186:7807/chat"
-#     headers = {'Content-Type': 'application/json'}
-#     user_input = {"user_input": user_input}
-    
-#     async with aiohttp.ClientSession() as session:
-#         async with session.post(client, headers=headers, json=user_input) as response:
-#             async for chunk in response.content.iter_any():
-#                 yield chunk.decode('utf-8')
-
-# async def run_convo():
-#     st.title(""":blue[#ReAct #Multi-Agent]""")
-#     st.markdown("""
-#     <style>
-#     .small-font {
-#         font-size:12px !important;
-#         color:gray;
-#         margin-top: 0%;
-#     }
-#     </style>
-#     """, unsafe_allow_html=True)
-#     st.markdown(""":orange[**Law | Ai | conversation | web search | realtime | image**]""", 
-#                 unsafe_allow_html=True)
-
-#     user_input = st.text_input(' ')
-
-#     if user_input:
-#         with st.spinner("Processing..."):
-#             response_placeholder = st.empty()
-#             full_response = ""
-#             async for chunk in get_response(user_input):
-#                 full_response += chunk
-#                 try:
-#                     # JSON 응답 처리 시도
-#                     json_response = json.loads(full_response)
-#                     answer = json_response['output']
-#                     agent = json_response['agent'][0]
-#                     observation = json_response['observation']
-                    
-#                     result = f"""**Action: [{agent.title()}]**\n
-#                     {answer}\n
-#                     ----------------------------------------------------\n
-#                     **Observation**\n
-#                     <p class='small-font'>{observation}</p>
-#                     """
-#                     response_placeholder.markdown(result, unsafe_allow_html=True)
-#                 except json.JSONDecodeError:
-#                     # JSON이 아닐 경우 (이미지 등) 그대로 표시
-#                     response_placeholder.text(full_response)
-#                 except KeyError:
-#                     # JSON이지만 예상한 키가 없는 경우
-#                     response_placeholder.text(full_response)
-
-# if __name__ == '__main__':
-#     asyncio.run(run_convo())
-
-
-import streamlit as st
-import requests
 
 def main():
     # st.title("Text Streaming App")
