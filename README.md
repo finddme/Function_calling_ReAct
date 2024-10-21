@@ -15,6 +15,16 @@
 <center><img width="1000" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
 <center><em style="color:gray;">Illustrated by the author</em></center><br>
 
+### Start app
+
+```
+# api run
+python main.py
+
+# streamlit run
+streamlit run streamlit.py
+```
+
 ## func_react_stream
 
 - streaming 기능 O
@@ -24,3 +34,13 @@
 
 <center><img width="1000" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
 <center><em style="color:gray;">Illustrated by the author</em></center><br>
+
+### Start app
+
+```
+# api run
+python main.py
+
+# streamlit run
+streamlit run streamlit.py
+```
