@@ -53,10 +53,11 @@ def create_weaviate(class_name):
     }
     client.schema.create_class(class_obj)
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=180))
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=300))
 def save_weaviate(class_name, vectorizing_element, chunks, start_index=0):
+    # start_index 지정 가능!!
     global client
-    client.batch.configure(batch_size=10, timeout_retries=5, dynamic=False)
+    client.batch.configure(batch_size=10, timeout_retries=100, dynamic=False)
     
     # 시작 인덱스 확인 메시지
     total_chunks = len(chunks)
@@ -166,4 +167,11 @@ if __name__ == "__main__":
                         default='title')
 
     args = parser.parse_args()
-    db_processing(args.class_name,args.data_path,args.vectorizing_element)
+    try:
+        db_processing(args.class_name,args.data_path,args.vectorizing_element)
+    except SystemExit:
+        print("Process terminated due to critical errors.")
+        raise  # 시스템 종료 예외를 다시 발생시켜 프로세스 종료
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+        sys.exit(1)
