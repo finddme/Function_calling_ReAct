@@ -8,13 +8,16 @@ import os
 import argparse
 import json
 from db.data_processing import crawling_and_processing
+from tenacity import retry, stop_after_attempt, wait_exponential
+import time
 
 known_class=DB["known_class"]
 weaviate_url=DB["weaviate_url"]
 
 def set_db_client():
     client = weaviate.Client(
-        url=weaviate_url
+        url=weaviate_url,
+        timeout_config=(5, 60)
     )
     return client
 
@@ -50,15 +53,31 @@ def create_weaviate(class_name):
     }
     client.schema.create_class(class_obj)
 
-def save_weaviate(class_name,vectorizing_element,chunks):
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=180))
+def save_weaviate(class_name, vectorizing_element, chunks):
     global client
-    client.batch.configure(batch_size=100)
+    client.batch.configure(batch_size=10, timeout_retries=5, dynamic=False)  # Adjust as needed
     print(f"--- Save DB (data size: {len(chunks)}) ---")
+    
     with client.batch as batch:
         for i, chunk in enumerate(chunks):
-            if i%10==0:print(f"{i}/{len(chunks)}")
+            if i % 10 == 0:
+                print(f"{i}/{len(chunks)}")
+                
             vector = get_embedding_openai(chunk[vectorizing_element])
-            batch.add_data_object(data_object=chunk, class_name=class_name, vector=vector)
+
+            # Retry mechanism with exponential backoff
+            for attempt in range(1, 4):  # Attempt up to 3 retries
+                try:
+                    batch.add_data_object(data_object=chunk, class_name=class_name, vector=vector)
+                    time.sleep(0.1)
+                    break  # Break out of retry loop if successful
+                except Exception as e:
+                    print(f"[ERROR] Batch ReadTimeout Exception occurred! Retrying in {2 ** attempt}s. [{attempt}/3]")
+                    time.sleep(2 ** attempt + random.uniform(0, 1))  # Exponential backoff with jitter
+            else:
+                print(f"[ERROR] Failed to add data object after 3 retries. Skipping...")
+    
     print("--- Save DB DONE ---")
 
 def load_json(data_path):
@@ -91,9 +110,9 @@ if __name__ == "__main__":
                                 "law_consult"], 
                         default='law_consult')
     parser.add_argument('--data-path', type=str, 
-                        choices=["/workspace/.gen/Crawler/Law/law_final_data.json", 
-                                "/workspace/.gen/Crawler/Law/law_consult_crawling/extract_str_laws_consult.json"], 
-                        default="/workspace/.gen/Crawler/Law/law_consult_crawling/extract_str_laws_consult.json")
+                        choices=["/workspace/chat_aws/law_final_data.json", 
+                                "/workspace/chat_aws/extract_str_laws_consult.json"], 
+                        default="/workspace/chat_aws/extract_str_laws_consult.json")
     parser.add_argument('--vectorizing-element', type=str, 
                         choices=["law_content",
                                 "title"],
