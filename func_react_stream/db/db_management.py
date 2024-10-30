@@ -54,31 +54,78 @@ def create_weaviate(class_name):
     client.schema.create_class(class_obj)
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=180))
-def save_weaviate(class_name, vectorizing_element, chunks):
+def save_weaviate(class_name, vectorizing_element, chunks, start_index=0):
     global client
-    client.batch.configure(batch_size=10, timeout_retries=5, dynamic=False)  # Adjust as needed
-    print(f"--- Save DB (data size: {len(chunks)}) ---")
+    client.batch.configure(batch_size=10, timeout_retries=5, dynamic=False)
+    
+    # 시작 인덱스 확인 메시지
+    total_chunks = len(chunks)
+    remaining_chunks = total_chunks - start_index
+    print(f"--- Save DB (remaining data size: {remaining_chunks}, starting from index: {start_index}) ---")
+    
+    # 실패한 청크들을 저장할 리스트
+    failed_chunks = []
     
     with client.batch as batch:
-        for i, chunk in enumerate(chunks):
+        for i in range(start_index, len(chunks)):
             if i % 10 == 0:
                 print(f"{i}/{len(chunks)}")
+            
+            chunk = chunks[i]
+            try:
+                vector = get_embedding_openai(chunk[vectorizing_element])
                 
-            vector = get_embedding_openai(chunk[vectorizing_element])
-
-            # Retry mechanism with exponential backoff
-            for attempt in range(1, 4):  # Attempt up to 3 retries
-                try:
-                    batch.add_data_object(data_object=chunk, class_name=class_name, vector=vector)
-                    time.sleep(0.1)
-                    break  # Break out of retry loop if successful
-                except Exception as e:
-                    print(f"[ERROR] Batch ReadTimeout Exception occurred! Retrying in {2 ** attempt}s. [{attempt}/3]")
-                    time.sleep(2 ** attempt + random.uniform(0, 1))  # Exponential backoff with jitter
-            else:
-                print(f"[ERROR] Failed to add data object after 3 retries. Skipping...")
+                # Retry mechanism with exponential backoff
+                for attempt in range(1, 4):
+                    try:
+                        batch.add_data_object(data_object=chunk, class_name=class_name, vector=vector)
+                        time.sleep(0.1)
+                        break
+                    except Exception as e:
+                        if attempt < 3:
+                            print(f"[ERROR] Batch ReadTimeout Exception occurred! Retrying in {2 ** attempt}s. [{attempt}/3]")
+                            time.sleep(2 ** attempt + random.uniform(0, 1))
+                        else:
+                            print(f"[ERROR] Failed to add chunk at index {i} after 3 retries. Adding to failed chunks list.")
+                            failed_chunks.append(i)
+                            
+            except Exception as e:
+                print(f"[ERROR] Failed to process chunk at index {i}: {str(e)}")
+                failed_chunks.append(i)
     
-    print("--- Save DB DONE ---")
+    if failed_chunks:
+        print(f"--- Save DB PARTIALLY DONE ---")
+        print(f"Failed chunks at indices: {failed_chunks}")
+        return failed_chunks
+    else:
+        print("--- Save DB COMPLETED SUCCESSFULLY ---")
+        return None
+
+def retry_failed_chunks(class_name, vectorizing_element, chunks, failed_indices):
+    """실패한 청크들을 재시도하는 함수"""
+    if not failed_indices:
+        return
+        
+    print(f"Retrying {len(failed_indices)} failed chunks...")
+    failed_chunks = [chunks[i] for i in failed_indices]
+    return save_weaviate(class_name, vectorizing_element, failed_chunks, 0)
+
+# 메인 실행 부분
+def main_save_process(class_name, vectorizing_element, chunks):
+    # 첫 시도
+    failed_indices = save_weaviate(class_name, vectorizing_element, chunks)
+    
+    # 실패한 청크들이 있다면 재시도
+    retry_count = 1
+    while failed_indices and retry_count <= 3:
+        print(f"\nRetry attempt {retry_count} for failed chunks")
+        failed_indices = retry_failed_chunks(class_name, vectorizing_element, chunks, failed_indices)
+        retry_count += 1
+    
+    if failed_indices:
+        print(f"\nWARNING: Some chunks still failed after all retries. Failed indices: {failed_indices}")
+    else:
+        print("\nAll chunks successfully saved!")
 
 def load_json(data_path):
     print("--- Load Data ---")
@@ -92,7 +139,7 @@ def db_processing(class_name,data_path,vectorizing_element):
     if class_name in db_class_list: del_weaviate_class(class_name)
     create_weaviate(class_name)
     chunks=load_json(data_path)
-    save_weaviate(class_name,vectorizing_element,chunks)
+    main_save_process(class_name,vectorizing_element,chunks)
 
 def ai_db_reload_auto():
     global client
@@ -101,7 +148,7 @@ def ai_db_reload_auto():
     chunks=crawling_and_processing()
     create_weaviate(ai_weaviate_class)
     vectorizing_element="text"
-    save_weaviate(ai_weaviate_class, vectorizing_element, chunks)
+    main_save_process(ai_weaviate_class, vectorizing_element, chunks)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
