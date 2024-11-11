@@ -25,7 +25,7 @@ async def main():
     st.markdown(""":orange[**Law | Finance | Ai | Conversation | Web search**]""", 
                 unsafe_allow_html=True)
 
-    api_url = "https://c987-220-117-175-177.ngrok-free.app/chat"
+    api_url = "https://a5a0-61-74-190-145.ngrok-free.app/chat"
 
     user_input = st.text_input("검색어를 입력하세요:", "")
 
