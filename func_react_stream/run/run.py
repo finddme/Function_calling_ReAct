@@ -14,8 +14,8 @@ class RUN:
     def __init__(self,args):
         self.args=args
         self.node=Node(self.args)
-        if args.ai_db_restore=="yes":
-            ai_db_reload_auto()
+        # if args.ai_db_restore=="yes":
+        #     ai_db_reload_auto()
 
     def run(self,user_input):
         action=self.node.function_call_node(user_input)
