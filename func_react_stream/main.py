@@ -4,7 +4,10 @@ from app.app import app
 import asyncio
 
 async def main(args):
+    if args.ai_db_restore=="yes":
+        ai_db_reload_auto()
     await app(args)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
