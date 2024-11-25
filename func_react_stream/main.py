@@ -12,8 +12,12 @@ os.system("pip install --upgrade pip")
 os.system("pip install -r requierments.txt")
 
 async def main(args):
-    if args.ai_db_restore == "True":
-        ai_db_reload_auto()
+    if args.web_cluster_db_update == "True":
+        os.system("python ./db/db_management_webcluster.py")
+    else:
+        if args.ai_db_restore == "True":
+            ai_db_reload_auto()
+
     if args.streamlit_direct == "True":
         streamlit_app(args)
     else:
@@ -35,7 +39,8 @@ if __name__ == '__main__':
     parser.add_argument('--llm', type=str, default='together', 
                         choices=["openai","groq","claude","together"], required=False)
     parser.add_argument('--ai-db-restore', type=str, default="False", choices=["True","False"], required=False)
-    parser.add_argument('--streamlit-direct', type=str, default="True", choices=["True","False"], required=False)
+    parser.add_argument('--web-cluster-db-update', type=str, default="False", choices=["True","False"], required=False)
+    parser.add_argument('--streamlit-direct', type=str, default="False", choices=["True","False"], required=False)
 
     args = parser.parse_args()
 
