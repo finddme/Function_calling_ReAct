@@ -10,7 +10,7 @@ from utils.config import state_name_list, kor
 naver_news=NAVER_NEWS()
 naver_finance=NAVER_FINANCE()
 search_engine=Search_API()
-client= set_db_client()
+client= set_db_client_webcluster()
 
 class Action:
     @staticmethod
