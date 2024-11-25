@@ -1,13 +1,13 @@
-Openai_API_KEY=""
-GROQ_API_KEY = ""
-Claude_API_KEY=""
-Together_API_KEY=""
+Openai_API_KEY=os.environ.get('Openai_API_KEY')
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+Claude_API_KEY=os.environ.get('Claude_API_KEY')
+Together_API_KEY=os.environ.get('Together_API_KEY')
 
-TAVILY_API_KEY=""
-SERPER_API_KEY="97daf1d71e4f2e9ab41a8c5b459d635bba9f63bd"
-coher_API_KEY= ""
+TAVILY_API_KEY=os.environ.get('TAVILY_API_KEY')
+SERPER_API_KEY=os.environ.get('SERPER_API_KEY')
+coher_API_KEY= os.environ.get('coher_API_KEY')
 
-HF_KEY=""
+HF_KEY=os.environ.get('HF_KEY')
 
 openai_model_name="gpt-4o"
 groq_model_name="llama-3.1-70b-versatile"
