@@ -17,7 +17,9 @@ together_model_name="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"
 
 
 DB={"known_class":["b_with_title","law"],
-    "weaviate_url":"http://192.168.2.186:8080",
+    "weaviate_url":"http://192.168.0.186:8080",
+    "weaviate_url_webcluster":"https://8ggks8n0s0iockcedg1gma.c0.us-west3.gcp.weaviate.cloud",
+    "weaviate_auth":"BISuJChcrxKaopUYA5Y6N7gxXt3zcdwyanbX",
     "ai_weaviate_class":"b_with_title",
     "law_weaviate_class":"law",
     "law_consult_weaviate_class":"law_consult"}
