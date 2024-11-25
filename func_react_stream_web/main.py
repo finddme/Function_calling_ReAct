@@ -15,7 +15,7 @@ async def main(args):
     if args.web_cluster_db_update == "True":
         os.system("python ./db/db_management_webcluster.py")
 
-    streamlit_app(args)
+    await streamlit_app(args)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
