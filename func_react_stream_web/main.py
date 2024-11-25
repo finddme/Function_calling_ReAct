@@ -1,17 +1,21 @@
 import argparse
 import six, os, torch
-from app.app import app
+# from app.app import app
 from app.direct_streamlit import streamlit_app
 import asyncio
-from db.db_management import ai_db_reload_auto
+# from db.db_management import ai_db_reload_auto
+import os
+os.system("pip install torch==2.1.2")
+os.system("pip install Flask --ignore-installed")
+os.system("pip install xformers==0.0.23.post1")
+os.system("pip install --upgrade pip")
+os.system("pip install -r requierments.txt")
 
 async def main(args):
-    if args.ai_db_restore == "True":
-        ai_db_reload_auto()
-    if args.streamlit_direct == "True":
-        streamlit_app(args)
-    else:
-        await app(args)
+    if args.web_cluster_db_update == "True":
+        os.system("python ./db/db_management_webcluster.py")
+
+    streamlit_app(args)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -28,8 +32,7 @@ if __name__ == '__main__':
                         required=False)
     parser.add_argument('--llm', type=str, default='together', 
                         choices=["openai","groq","claude","together"], required=False)
-    parser.add_argument('--ai-db-restore', type=str, default="False", choices=["True","False"], required=False)
-    parser.add_argument('--streamlit-direct', type=str, default="True", choices=["True","False"], required=False)
+    parser.add_argument('--web-cluster-db-update', type=str, default="False", choices=["True","False"], required=False)
 
     args = parser.parse_args()
 

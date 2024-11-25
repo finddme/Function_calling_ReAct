@@ -1,5 +1,6 @@
 from .search_engine import *
-from db.db_management import set_db_client
+# from db.db_management import set_db_client
+from db.db_management_webcluster import set_db_client_webcluster
 from utils.config import *
 from db.retrieve import *
 import random
@@ -10,7 +11,7 @@ from utils.config import state_name_list, kor
 naver_news=NAVER_NEWS()
 naver_finance=NAVER_FINANCE()
 search_engine=Search_API()
-client= set_db_client()
+client= set_db_client_webcluster()
 
 class Action:
     @staticmethod

@@ -12,7 +12,7 @@ import random
 import torch
 import gc
 import string
-from diffusers import DiffusionPipeline
+# from diffusers import DiffusionPipeline
 from huggingface_hub import login
 import io
 from io import BytesIO

@@ -1,13 +1,14 @@
-Openai_API_KEY=""
-GROQ_API_KEY = ""
-Claude_API_KEY=""
-Together_API_KEY=""
+import os
+Openai_API_KEY=os.environ.get('Openai_API_KEY')
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+Claude_API_KEY=os.environ.get('Claude_API_KEY')
+Together_API_KEY=os.environ.get('Together_API_KEY')
 
-TAVILY_API_KEY=""
-SERPER_API_KEY="97daf1d71e4f2e9ab41a8c5b459d635bba9f63bd"
-coher_API_KEY= ""
+TAVILY_API_KEY=os.environ.get('TAVILY_API_KEY')
+SERPER_API_KEY=os.environ.get('SERPER_API_KEY')
+coher_API_KEY= os.environ.get('coher_API_KEY')
 
-HF_KEY=""
+HF_KEY=os.environ.get('HF_KEY')
 
 openai_model_name="gpt-4o"
 groq_model_name="llama-3.1-70b-versatile"
@@ -16,7 +17,9 @@ together_model_name="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"
 
 
 DB={"known_class":["b_with_title","law"],
-    "weaviate_url":"http://192.168.2.186:8080",
+    "weaviate_url":"http://192.168.0.186:8080",
+    "weaviate_url_webcluster":"https://8ggks8n0s0iockcedg1gma.c0.us-west3.gcp.weaviate.cloud",
+    "weaviate_auth":"BISuJChcrxKaopUYA5Y6N7gxXt3zcdwyanbX",
     "ai_weaviate_class":"b_with_title",
     "law_weaviate_class":"law",
     "law_consult_weaviate_class":"law_consult"}

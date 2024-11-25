@@ -59,10 +59,12 @@ def save_weaviate(class_name, vectorizing_element, chunks, start_index=0):
     global client
     client.batch.configure(batch_size=10, timeout_retries=100, dynamic=False)
     
+    # 시작 인덱스 확인 메시지
     total_chunks = len(chunks)
     remaining_chunks = total_chunks - start_index
     print(f"--- Save DB (remaining data size: {remaining_chunks}, starting from index: {start_index}) ---")
     
+    # 실패한 청크들을 저장할 리스트
     failed_chunks = []
     
     with client.batch as batch:
@@ -74,6 +76,7 @@ def save_weaviate(class_name, vectorizing_element, chunks, start_index=0):
             try:
                 vector = get_embedding_openai(chunk[vectorizing_element])
                 
+                # Retry mechanism with exponential backoff
                 for attempt in range(1, 4):
                     try:
                         batch.add_data_object(data_object=chunk, class_name=class_name, vector=vector)
@@ -100,6 +103,7 @@ def save_weaviate(class_name, vectorizing_element, chunks, start_index=0):
         return None
 
 def retry_failed_chunks(class_name, vectorizing_element, chunks, failed_indices):
+    """실패한 청크들을 재시도하는 함수"""
     if not failed_indices:
         return
         
@@ -107,9 +111,12 @@ def retry_failed_chunks(class_name, vectorizing_element, chunks, failed_indices)
     failed_chunks = [chunks[i] for i in failed_indices]
     return save_weaviate(class_name, vectorizing_element, failed_chunks, 0)
 
+# 메인 실행 부분
 def main_save_process(class_name, vectorizing_element, chunks):
+    # 첫 시도
     failed_indices = save_weaviate(class_name, vectorizing_element, chunks)
     
+    # 실패한 청크들이 있다면 재시도
     retry_count = 1
     while failed_indices and retry_count <= 3:
         print(f"\nRetry attempt {retry_count} for failed chunks")
