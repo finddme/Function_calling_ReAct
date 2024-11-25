@@ -1,13 +1,17 @@
 import argparse
 import six, os, torch
 from app.app import app
+from app.direct_streamlit import streamlit_app
 import asyncio
+from db.db_management import ai_db_reload_auto
 
 async def main(args):
-    if args.ai_db_restore=="yes":
+    if args.ai_db_restore == "True":
         ai_db_reload_auto()
-    await app(args)
-
+    if args.streamlit_direct == "True":
+        streamlit_app(args)
+    else:
+        await app(args)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -24,7 +28,8 @@ if __name__ == '__main__':
                         required=False)
     parser.add_argument('--llm', type=str, default='together', 
                         choices=["openai","groq","claude","together"], required=False)
-    parser.add_argument('--ai-db-restore', type=str, default='no', choices=["yes","no"], required=False)
+    parser.add_argument('--ai-db-restore', type=str, default="False", choices=["True","False"], required=False)
+    parser.add_argument('--streamlit-direct', type=str, default="True", choices=["True","False"], required=False)
 
     args = parser.parse_args()
 
