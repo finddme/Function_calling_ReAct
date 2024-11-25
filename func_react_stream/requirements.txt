@@ -69,7 +69,7 @@ opentelemetry-sdk==1.25.0
 opentelemetry-semantic-conventions==0.46b0
 pycparser==2.21
 pydantic==2.8.0
-pydantic_core==2.18.4
+pydantic_core==2.20.0
 pyparsing==2.4.7
 PyPDF2==3.0.1
 quantile-python==1.1
