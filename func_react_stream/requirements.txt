@@ -68,7 +68,7 @@ opentelemetry-proto==1.25.0
 opentelemetry-sdk==1.25.0
 opentelemetry-semantic-conventions==0.46b0
 pycparser==2.21
-pydantic==2.7.4
+pydantic==2.8.0
 pydantic_core==2.18.4
 pyparsing==2.4.7
 PyPDF2==3.0.1
