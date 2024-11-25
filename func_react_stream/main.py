@@ -1,6 +1,6 @@
 import argparse
 import six, os, torch
-from app.app import app
+# from app.app import app
 from app.direct_streamlit import streamlit_app
 import asyncio
 from db.db_management import ai_db_reload_auto
@@ -14,14 +14,8 @@ os.system("pip install -r requierments.txt")
 async def main(args):
     if args.web_cluster_db_update == "True":
         os.system("python ./db/db_management_webcluster.py")
-    else:
-        if args.ai_db_restore == "True":
-            ai_db_reload_auto()
 
-    if args.streamlit_direct == "True":
-        streamlit_app(args)
-    else:
-        await app(args)
+    streamlit_app(args)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
