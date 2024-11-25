@@ -31,7 +31,7 @@ import aiohttp
 import streamlit as st
 import requests
 
-def streamlit_app(args):
+async def streamlit_app(args):
     st.markdown("""
     <style>
     .small-font {
