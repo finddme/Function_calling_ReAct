@@ -1,3 +1,4 @@
+import os
 Openai_API_KEY=os.environ.get('Openai_API_KEY')
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
 Claude_API_KEY=os.environ.get('Claude_API_KEY')
