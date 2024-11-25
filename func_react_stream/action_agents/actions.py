@@ -1,6 +1,6 @@
 from .search_engine import *
 # from db.db_management import set_db_client
-from db_management_webcluster import set_db_client_webcluster
+from db.db_management_webcluster import set_db_client_webcluster
 from utils.config import *
 from db.retrieve import *
 import random
