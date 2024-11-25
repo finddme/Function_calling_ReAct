@@ -1,12 +1,17 @@
 import os,sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from .db_management import set_db_client
+from .db_management_webcluster import set_db_client_webcluster
 from model.models import cohere_engine, get_embedding_openai
 import cohere
 import re
 from utils.config import *
 
-client= set_db_client()
+try:
+    client= set_db_client()
+except Exception as e:
+    client= set_db_client_webcluster()
+    
 co= cohere_engine()
 
 def retrieve(query,weaviate_class):
