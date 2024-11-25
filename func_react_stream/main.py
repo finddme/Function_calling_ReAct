@@ -40,7 +40,7 @@ if __name__ == '__main__':
                         choices=["openai","groq","claude","together"], required=False)
     parser.add_argument('--ai-db-restore', type=str, default="False", choices=["True","False"], required=False)
     parser.add_argument('--web-cluster-db-update', type=str, default="False", choices=["True","False"], required=False)
-    parser.add_argument('--streamlit-direct', type=str, default="False", choices=["True","False"], required=False)
+    parser.add_argument('--streamlit-direct', type=str, default="True", choices=["True","False"], required=False)
 
     args = parser.parse_args()
 
