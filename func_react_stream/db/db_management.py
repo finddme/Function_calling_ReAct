@@ -171,7 +171,7 @@ if __name__ == "__main__":
         db_processing(args.class_name,args.data_path,args.vectorizing_element)
     except SystemExit:
         print("Process terminated due to critical errors.")
-        raise  # 시스템 종료 예외를 다시 발생시켜 프로세스 종료
+        raise  
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
         sys.exit(1)
