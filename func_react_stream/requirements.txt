@@ -157,5 +157,4 @@ websockets==11.0.3
 Werkzeug==3.0.1
 wikipedia==1.4.0
 Wikipedia-API==0.6.0
-xformers==0.0.23.post1
 
