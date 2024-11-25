@@ -4,6 +4,8 @@ from app.app import app
 from app.direct_streamlit import streamlit_app
 import asyncio
 from db.db_management import ai_db_reload_auto
+import os
+os.system("pip install -r requierments.txt")
 
 async def main(args):
     if args.ai_db_restore == "True":
