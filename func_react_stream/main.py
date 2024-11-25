@@ -3,7 +3,7 @@ import six, os, torch
 # from app.app import app
 from app.direct_streamlit import streamlit_app
 import asyncio
-from db.db_management import ai_db_reload_auto
+# from db.db_management import ai_db_reload_auto
 import os
 os.system("pip install torch==2.1.2")
 os.system("pip install Flask --ignore-installed")
