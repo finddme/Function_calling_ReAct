@@ -84,7 +84,6 @@ rootpath==0.1.1
 rouge-score==0.1.2
 rpds-py==0.9.2
 sentence-transformers==2.3.1
-sentencepiece==0.1.99
 sgmllib3k==1.0.0
 shapely==2.0.4
 shellingham==1.5.4
