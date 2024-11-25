@@ -5,6 +5,9 @@ from app.direct_streamlit import streamlit_app
 import asyncio
 from db.db_management import ai_db_reload_auto
 import os
+os.system("pip install torch==2.1.2")
+os.system("pip install Flask --ignore-installed")
+os.system("pip install xformers==0.0.23.post1")
 os.system("pip install --upgrade pip")
 os.system("pip install -r requierments.txt")
 
