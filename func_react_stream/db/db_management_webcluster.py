@@ -15,7 +15,7 @@ weaviate_auth=DB["weaviate_auth"]
 
 def set_db_client_webcluster():
     client = weaviate.Client(
-        url=weaviate_url,
+        url=weaviate_url_webcluster,
         auth_client_secret=weaviate.auth.AuthApiKey(api_key=weaviate_auth),
     )
     return client
