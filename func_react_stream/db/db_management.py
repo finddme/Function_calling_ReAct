@@ -55,7 +55,6 @@ def create_weaviate(class_name):
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=300))
 def save_weaviate(class_name, vectorizing_element, chunks, start_index=0):
-    # start_index 지정 가능!!
     global client
     client.batch.configure(batch_size=10, timeout_retries=100, dynamic=False)
     
