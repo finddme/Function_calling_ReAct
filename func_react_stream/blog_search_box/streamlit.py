@@ -49,6 +49,7 @@ async def main():
 
             text_placeholder.markdown(full_text)
     st.image("https://finddme.github.io/public/fc_react.png", caption="search box pipeline")
+    st.markdown("개발물 관련 포스트: [https://finddme.github.io/dev%20log/2024/09/09/func_react/](https://finddme.github.io/dev%20log/2024/09/09/func_react/)")
 
 if __name__ == '__main__':
     asyncio.run(main())
