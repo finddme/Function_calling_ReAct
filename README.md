@@ -5,16 +5,15 @@
 - Finance action 추가
 - token streaming version 추가
 
+## Pipeline 
+
+<center><img width="800" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
+<center><em style="color:gray;">Illustrated by the author</em></center><br>
 
 ## func_react
 
 - streaming 기능 X
 - image generation 기능 포함
-
-### Pipeline 
-
-<center><img width="800" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
-<center><em style="color:gray;">Illustrated by the author</em></center><br>
 
 ### Start app
 
@@ -34,18 +33,16 @@ streamlit run streamlit.py
   - 즉, 긴 대기 시간 없이 즉각적인 반응을 보여줌으로써 전반적인 사용자 경험이 향상된다.
   - 한국인은 빨리빨리👍
 - image generation 기능 미포함
-  
-### Pipeline 
-
-<center><img width="800" src="https://github.com/user-attachments/assets/336fe90a-a8d4-4244-a213-7f74558f5100"></center>
-<center><em style="color:gray;">Illustrated by the author</em></center><br>
 
 ### Start app
 
 ```
 # api run
-python main.py
+python main.py --streamlit-direct False
 
 # streamlit run
 streamlit run streamlit.py
+
+# (api 따로 필요 없고, stremalit demo만 필요할 때) 
+streamlit run main.py
 ```
