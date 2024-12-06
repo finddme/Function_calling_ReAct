@@ -8,6 +8,22 @@ os.system("sudo apt-get update  -y")
 os.system("sudo apt-get upgrade  -y")
 os.system("npx playwright install-deps --dry-run")
 os.system("""sudo apt-get install -y \
+                                  libnss3\
+                                    libnspr4\
+                                    libatk1.0-0\
+                                    libatk-bridge2.0-0\
+                                    libcups2\
+                                    libdrm2\
+                                    libxcomposite1\
+                                    libxdamage1\ 
+                                    libxfixes3\
+                                    libxrandr2\
+                                    libgbm1\
+                                    libxkbcommon0\
+                                    libpango-1.0-0\
+                                    libcairo2\
+                                    libasound2\
+                                    libatspi2.0-0 
                                         libwoff1 \
                                         libopus0 \
                                         libwebp7 \
@@ -45,24 +61,6 @@ os.system("""sudo apt-get install -y \
                                         fonts-wqy-zenhei \
                                         fonts-tlwg-loma-otf \
                                         fonts-freefont-ttf""")
-os.system("""sudo apt-get install  -y \
-          libnss3\
-            libnspr4\
-            libatk1.0-0\
-            libatk-bridge2.0-0\
-            libcups2\
-            libdrm2\
-            libxcomposite1\
-            libxdamage1\ 
-            libxfixes3\
-            libxrandr2\
-            libgbm1\
-            libxkbcommon0\
-            libpango-1.0-0\
-            libcairo2\
-            libasound2\
-            libatspi2.0-0 
-            """)
 
 import argparse
 import six, torch
