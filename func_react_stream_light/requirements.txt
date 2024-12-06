@@ -72,7 +72,6 @@ eval_type_backport==0.2.0
 evaluate==0.4.1
 exceptiongroup==1.1.2
 executing==2.0.1
-faiss-gpu==1.7.2
 Faker==26.0.0
 fastapi==0.111.0
 fastapi-cli==0.0.5
