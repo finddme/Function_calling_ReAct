@@ -355,8 +355,6 @@ wikipedia==1.4.0
 Wikipedia-API==0.6.0
 wrapt==1.16.0
 wsproto==1.2.0
-xformers==0.0.23.post1
 xxhash==3.4.1
 yarl==1.9.4
 zipp==1.0.0
-zstandard==0.22.0
