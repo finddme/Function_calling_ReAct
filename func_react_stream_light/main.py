@@ -1,5 +1,7 @@
 import os
 os.system("playwright install")
+os.system("sudo apt-get update")
+os.system("sudo apt-get upgrade")
 os.system("""sudo apt-get install -y \
                                         libwoff1 \
                                         libopus0 \
