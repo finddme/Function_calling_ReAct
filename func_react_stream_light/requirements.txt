@@ -3,7 +3,7 @@ xformers==0.0.23.post1
 crawl4ai==0.3.731
 crawl4ai[sync]
 streamlit_chat 
-numpy==1.25.0
+numpy>=1.26.0,<3
 typing_extensions
 langserve
 fastapi
