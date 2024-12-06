@@ -1,6 +1,7 @@
+import os
 os.system("bash requierments.sh")
 import argparse
-import six, os, torch
+import six, torch
 from app.direct_streamlit import streamlit_app
 import asyncio
 from utils.doc_search import *
