@@ -2,3 +2,4 @@ torch
 streamlit_chat 
 langserve
 fastapi
+httpx
