@@ -1,5 +1,7 @@
 import os
 os.system("pip install crawl4ai")
+os.system("rm /etc/apt/sources.list.d/microsoft-prod.list")
+os.system("npx playwright install --with-deps")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
