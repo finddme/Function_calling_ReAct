@@ -1,3 +1,4 @@
+--upgrade pip
 torch==2.1.2
 xformers==0.0.23.post1
 crawl4ai[sync]
