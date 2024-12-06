@@ -172,7 +172,7 @@ lazr.restfulclient==0.14.4
 lazr.uri==1.0.6
 limits==3.13.0
 lit==16.0.6
-litellm==1.40.17
+litellm==1.48
 literalai==0.0.607
 lm_eval==0.4.1
 lxml==5.3
