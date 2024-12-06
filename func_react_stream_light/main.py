@@ -1,3 +1,4 @@
+os.system("bash requierments.sh")
 import argparse
 import six, os, torch
 from app.direct_streamlit import streamlit_app
@@ -6,7 +7,6 @@ from utils.doc_search import *
 from utils.config import *
 import os
 from action_agents.search_engine import Blog
-os.system("bash requierments.sh")
 
 async def main(args):
     await streamlit_app(args)
