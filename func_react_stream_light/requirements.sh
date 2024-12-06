@@ -1,5 +1,6 @@
 pip install --upgrade pip
-pip install torch==2.1.2
+pip install -r requirements.txt
+# pip install torch==2.1.2
 pip install Flask --ignore-installed
 pip install xformers==0.0.23.post1
 pip install crawl4ai[sync]
