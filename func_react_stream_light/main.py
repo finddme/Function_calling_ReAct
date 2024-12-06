@@ -1,4 +1,7 @@
 import os
+os.system("pip install crawl4ai")
+os.system("pip install nest-asyncio")
+os.system("crawl4ai-setup")
 os.system("playwright install")
 os.system("sudo apt-get update")
 os.system("sudo apt-get upgrade")
