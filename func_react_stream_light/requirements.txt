@@ -100,7 +100,7 @@ fqdn==1.5.1
 frozenlist==1.4.0
 gitdb==4.0.11
 GitPython==3.1.43
-greenlet==3.0.3
+greenlet==3.1.1
 groq==0.9.0
 grpc-google-iam-v1==0.13.1
 grpcio==1.64.1
