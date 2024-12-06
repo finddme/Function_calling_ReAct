@@ -5,6 +5,7 @@ import httpx
 import json
 from utils.config import *
 from .processor import Processing
+from together import Together
 
 class Model:
     def __init__(self,llm):
@@ -13,9 +14,7 @@ class Model:
         global system_prompt
         self.llm=llm
         self.call_res=[]
-        self.mode={"openai.OpenAI":self.openai_cpl,
-                 "groq.Groq":self.groq_cpl,
-                 "anthropic.Anthropic":self.claude_cpl,
+        self.mode={"anthropic.Anthropic":self.claude_cpl,
                   "together.client.Together":self.together_cpl}
         model_type = str(type(self.llm))
         self.model_type = model_type[model_type.find("'")+1:model_type.rfind("'")]
@@ -29,37 +28,16 @@ class Model:
 
     def __funccall__(self,messages,functions):
         model=self.mode[self.model_type]
-        response=model(messages,functions)
+        response=model(messages=messages,functions=functions)
         self.processing=Processing(self.model_type)
         self.processing.postprocessing(messages,response)
         self.call_res=self.processing.call_res
-
-    def openai_cpl(self,messages,functions=None):
-        if functions:
-            tool_choice="required"
-        else:tool_choice=None
-        response = self.llm.chat.completions.create(
-            model="gpt-4o",
-            messages=messages,
-            tools=functions,
-            tool_choice=tool_choice
-            )
-        response_message = response.choices[0].message
-        if functions:
-            return response_message
-        else: return response_message.content
-        
-    def groq_cpl(self,messages,functions=None):
-        response = self.llm.chat.completions.create(
-            model="llama-3.1-70b-versatile",
-            messages=messages,
-            tools=functions,
-            tool_choice="auto",)
-        response_message = response.choices[0].message
-        if functions:
-            return response_message
-        else: return response_message.content
-        
+    
+    def __instructor__(self,messages,response_model):
+        model=self.mode[self.model_type]
+        response=model(messages,response_model=response_model)
+        return response
+    
     def claude_cpl(self,messages,functions=None):
         if functions:
             response = self.llm.messages.create(
@@ -80,9 +58,30 @@ class Model:
             return response_message
         else: return response_message[0].text
 
-    def together_cpl(self,messages,functions=None):
-        if functions:
-            response = self.llm.chat.completions.create(
+    def together_cpl(self,messages,functions=None,response_model=None):
+        if response_model:
+            max_retries=25
+            for attempt in range(max_retries):
+                try:
+                    llm_client = Instructor_Definition.together_inst()
+                    response = llm_client.chat.completions.create(
+                            model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+                            response_model=response_model,
+                            messages=messages,
+                            # max_retries=Retrying(
+                            #     stop=stop_after_attempt(2),  
+                            #     wait=wait_fixed(1),  
+                            # ),
+                        )
+                    return response
+                    
+                except Exception as e:
+                    if attempt == max_retries - 1:
+                        raise e
+                    else: continue
+        elif functions:
+            llm = Together(api_key=Together_API_KEY)
+            response = llm.chat.completions.create(
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
                 messages=messages,
                 temperature=0,
@@ -91,24 +90,19 @@ class Model:
                 repetition_penalty=1,
                 stop=["<|eot_id|>","<|eom_id|>"],
             )
-            
             response_message = response.choices[0].message
-            if functions:
-                return response_message
-            else: return response_message.content
-
+            return response_message
         else:
-            stream = self.llm.chat.completions.create(
+            llm_client=self.llm
+            response = llm_client.chat.completions.create(
                 model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
                 messages=messages,
-                # max_tokens=512,
-                temperature=0.7,
-                top_p=0.7,
-                top_k=50,
-                repetition_penalty=1,
-                stop=["<|eot_id|>","<|eom_id|>"],
-                stream=True
-            )
-            for chunk in stream:
-                if chunk.choices[0].delta.content is not None:
-                    yield chunk.choices[0].delta.content
+                # temperature=0,
+                # top_p=0.7,
+                # top_k=50,
+                # repetition_penalty=1,
+                # stop=["<|eot_id|>","<|eom_id|>"],
+                )
+
+            response_message = response.choices[0].message
+            return response_message.content

@@ -19,3 +19,10 @@ class Output_format(BaseModel):
 
 class UserInput(BaseModel):
     user_input: str
+
+class relevant_post_title(BaseModel):
+    title:str
+    url:str
+
+class insturctor_format(BaseModel):
+    titles: List[relevant_post_title]

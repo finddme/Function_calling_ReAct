@@ -12,7 +12,6 @@ import random
 import torch
 import gc
 import string
-# from diffusers import DiffusionPipeline
 from huggingface_hub import login
 import io
 from io import BytesIO
@@ -22,24 +21,9 @@ import json
 from tavily import TavilyClient
 import cohere
 import requests
-
-login(HF_KEY)
-
-image_gen_endpoint= IMAGE["image_gen_endpoint"]
+import instructor
 
 class LLM_Definition:
-    @staticmethod
-    def openai_llm():
-        global Openai_API_KEY
-        llm = OpenAI(api_key=Openai_API_KEY)
-        return llm
-
-    @staticmethod 
-    def groq_llm():
-        global GROQ_API_KEY
-        llm = Groq(api_key=GROQ_API_KEY)
-        return llm
-
     @staticmethod
     def claude_llm():
         global Claude_API_KEY
@@ -52,6 +36,23 @@ class LLM_Definition:
         llm = Together(api_key=Together_API_KEY)
         return llm
 
+class Instructor_Definition:
+    @staticmethod
+    def together_inst():
+        global Claude_API_KEY
+        llm = anthropic.Anthropic(api_key=Claude_API_KEY)
+        client = instructor.from_openai(llm, mode=instructor.Mode.TOOLS)
+        return client 
+    @staticmethod
+    def together_inst():
+        global Together_API_KEY
+        llm=openai.OpenAI(
+                        base_url="https://api.together.xyz/v1",
+                        api_key=Together_API_KEY,
+                    )
+        client = instructor.from_openai(llm, mode=instructor.Mode.TOOLS)
+        return client   
+    
 def get_embedding_openai(text, engine="text-embedding-3-large") : 
     global Openai_API_KEY
     os.environ["OPENAI_API_KEY"] =  Openai_API_KEY
@@ -70,31 +71,3 @@ def cohere_engine():
 def tavily_engine(TAVILY_API_KEY=TAVILY_API_KEY):
     tavily = TavilyClient(api_key=TAVILY_API_KEY)
     return tavily
-
-def img_model_call(query):
-    data = json.dumps({"user_input": query}) 
-    headers = { 'Content-Type': 'application/json'}
-    response = requests.request("POST", image_gen_endpoint, headers=headers, data=data)
-    img = response.content
-    return io.BytesIO(img).getvalue()
-
-def img_inference(pipe,device,MAX_SEED,prompt, 
-                seed=42, randomize_seed=False, 
-                width=1024, height=1024, 
-                num_inference_steps=4):
-    
-    if randomize_seed:
-        seed = random.randint(0, MAX_SEED)
-    generator = torch.Generator().manual_seed(seed)
-    image = pipe(
-            prompt = prompt, 
-            width = width,
-            height = height,
-            num_inference_steps = num_inference_steps, 
-            generator = generator,
-            guidance_scale=0.0
-    ).images[0] 
-    memory_stream = io.BytesIO()
-    image.save(memory_stream, format="PNG")
-    memory_stream.seek(0)
-    return memory_stream

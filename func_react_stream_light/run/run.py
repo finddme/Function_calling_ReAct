@@ -24,7 +24,7 @@ class RUN:
         action_str=""
         for a in action:
             action_str+=a["function"]
-        yield f"**[Action: {action_str}]**\n\n"
+            yield f"**[Action: {action_str}]**\n\n"
 
         for chunk in self.node.generate_node(user_input,action,observation):
             yield f"{chunk}"

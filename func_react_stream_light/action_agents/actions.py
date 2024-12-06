@@ -1,17 +1,17 @@
 from .search_engine import *
-# from db.db_management import set_db_client
-from db.db_management_webcluster import set_db_client_webcluster
 from utils.config import *
 from db.retrieve import *
 import random
 import torch
-from model.models import img_model_call,img_inference
+# from model.models import img_model_call,img_inference
 from utils.config import state_name_list, kor
 
 naver_news=NAVER_NEWS()
 naver_finance=NAVER_FINANCE()
 search_engine=Search_API()
-client= set_db_client_webcluster()
+print("--- Make search engine ---")
+blog=Blog()
+asyncio.run(blog.prepare_allpost_chunk())
 
 class Action:
     @staticmethod
@@ -73,38 +73,8 @@ class Action:
 
     @staticmethod
     def ai_retrieval(query):
-        global client
-        ai_weaviate_class=DB["ai_weaviate_class"]
-
-        retrieval_res=retrieve(query,ai_weaviate_class)
-        rerank_res=reranker_cohere(query,retrieval_res,ai_weaviate_class)
-        return rerank_res
-
-    @staticmethod
-    def law_retrieval(query):
-        global client
-
-        law_weaviate_class=DB["law_weaviate_class"]
-        law_retrieval_res=retrieve(query,law_weaviate_class)
-        law_rerank_res=reranker_cohere(query,law_retrieval_res,law_weaviate_class)
-
-        law_c_weaviate_class=DB["law_consult_weaviate_class"]
-        law_c_retrieval_res=retrieve(query,law_c_weaviate_class)
-        law_c_rerank_res=reranker_cohere(query,law_c_retrieval_res,law_c_weaviate_class)
-
-        rerank_res=law_rerank_res+law_c_rerank_res
-
-        return rerank_res
-
-    @staticmethod
-    def image_generation(query,args,pipe,device,MAX_SEED):
-        if args.image=="api":
-            img_res=img_model_call(query)
-        else:
-            args.img_res=img_inference(pipe,device,MAX_SEED,query)
-        # return {"query":query,"agent":["image generation"],"generate":img_res,"react_res":"","observations":"","iter_count":iter_count}
-        return img_res
-
+        return blog.blog_serach_basic(query)
+    
 class Action_Map:
     def __init__(self,state):
         self.query=state["query"]

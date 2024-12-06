@@ -13,7 +13,7 @@ class FunctionCall(Model):
         self.model=Model(self.llm)
         
         self.messages = []
-        include_action=["web_search","casual_conversation", "ai_related_search","legal_related_search"]
+        include_action=["web_search","casual_conversation", "ai_related_search"]
         
         setting=Setting(self.model.model_type,include_action)
         processing=Processing(self.model.model_type)
@@ -40,5 +40,6 @@ class FunctionCall(Model):
     
     def execute(self):
         # self.model=Model(self.llm)
+        print()
         self.model.__funccall__(self.messages,self.functions)
         return self.model.call_res

@@ -1,3 +1,13 @@
+get_relevant_post_prompt="""
+Identify and return post titles most likely to contain information relevant to answering the user’s question. 
+Prioritize titles with keywords or concepts directly related to the question.
+Use contextual understanding to ensure selections are meaningful even if exact matches are not found.
+If there is Korean text in the title, include it without any modification.
+
+Post titles: {}
+User Question: {}
+"""
+
 system_prompt="""
 Given the following observation, identify and extract the relevant information to answer the user's question in **Korean**. 
 Ignore any details that are unrelated to the question or do not help in formulating the answer. 
