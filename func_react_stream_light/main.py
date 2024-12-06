@@ -1,5 +1,6 @@
 import os
 os.system("playwright install")
+os.system("playwright install-deps")
 import argparse
 import six, torch
 from app.direct_streamlit import streamlit_app
