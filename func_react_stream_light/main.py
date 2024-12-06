@@ -3,8 +3,8 @@ os.system("pip install crawl4ai")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("playwright install")
-os.system("sudo apt-get update")
-os.system("sudo apt-get upgrade")
+os.system("sudo apt-get update  -y")
+os.system("sudo apt-get upgrade  -y")
 os.system("""sudo apt-get install -y \
                                         libwoff1 \
                                         libopus0 \
@@ -43,7 +43,8 @@ os.system("""sudo apt-get install -y \
                                         fonts-wqy-zenhei \
                                         fonts-tlwg-loma-otf \
                                         fonts-freefont-ttf""")
-os.system("""sudo apt-get install libnss3\
+os.system("""sudo apt-get install  -y \
+          libnss3\
             libnspr4\
             libatk1.0-0\
             libatk-bridge2.0-0\
