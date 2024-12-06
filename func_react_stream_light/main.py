@@ -1,5 +1,5 @@
 import os
-os.system("bash requierments.sh")
+os.system("bash ./requierments.sh")
 import argparse
 import six, torch
 from app.direct_streamlit import streamlit_app
