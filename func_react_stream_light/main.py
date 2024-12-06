@@ -1,7 +1,7 @@
 import os
 os.system("pip install crawl4ai")
 os.system("rm /etc/apt/sources.list.d/microsoft-prod.list")
-os.system("npx playwright install --with-deps")
+os.system("npx playwright install-deps --dry-run")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
@@ -73,16 +73,16 @@ from utils.doc_search import *
 from utils.config import *
 import os
 from action_agents.search_engine import Blog
-
 from playwright.sync_api import sync_playwright
   
 # async def main(args):
 #     await streamlit_app(args)
 
 async def main(args):
-    browser = p.chromium.launch()
-    await streamlit_app(args)
-    browser.close()
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        await streamlit_app(args)
+        browser.close()
   
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
