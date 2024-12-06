@@ -228,7 +228,7 @@ pathvalidate==3.2.0
 pdf2image==1.17.0
 peft==0.7.1
 pexpect==4.9.0
-pillow==10.3.0
+pillow==10.4
 platformdirs==4.1.0
 plotly==5.18.0
 pluggy==1.4.0
