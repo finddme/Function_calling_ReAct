@@ -4,11 +4,11 @@ os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
 os.system("pip install --upgrade playwright")
-os.system("sudo playwright install-deps ")
-os.system("sudo apt-get update  -y")
-os.system("sudo apt-get upgrade  -y")
+os.system("playwright install-deps ")
+os.system("apt-get update  -y")
+os.system("apt-get upgrade  -y")
 os.system("npx playwright install-deps --dry-run")
-os.system("""sudo apt-get install -y \
+os.system("""apt-get install -y \
                                   libnss3\
                                     libnspr4\
                                     libatk1.0-0\
