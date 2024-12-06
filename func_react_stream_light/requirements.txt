@@ -9,3 +9,4 @@ langserve
 fastapi
 httpx
 langgraph
+anthropic
