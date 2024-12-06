@@ -266,7 +266,6 @@ pyproject-toml==0.0.10
 pyre-extensions==0.0.29
 pyreqwest_impersonate==0.4.9
 PySocks==1.7.1
-pytablewriter==1.2.0
 python-apt==2.4.0+ubuntu4
 python-dateutil==2.8.2
 python-dotenv==1.0.1
