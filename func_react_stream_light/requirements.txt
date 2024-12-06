@@ -83,10 +83,11 @@ ffmpy==0.3.1
 filelock==3.13.1
 filetype==1.2.0
 FlagEmbedding==1.2.10
-Flask==3.0.1
-Flask-Cors==4.0.0
-Flask-RESTful==0.3.10
-flask-restful-swagger-2==0.35
+torch==2.1.2
+Flask
+Flask-Cors
+Flask-RESTful
+flask-restful-swagger-2
 flatbuffers==24.3.25
 fonttools==4.47.0
 fqdn==1.5.1
