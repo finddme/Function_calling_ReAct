@@ -6,6 +6,7 @@ os.system("playwright install")
 os.system("sudo playwright install-deps ")
 os.system("sudo apt-get update  -y")
 os.system("sudo apt-get upgrade  -y")
+os.system("npx playwright install-deps --dry-run")
 os.system("""sudo apt-get install -y \
                                         libwoff1 \
                                         libopus0 \
