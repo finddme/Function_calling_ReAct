@@ -35,7 +35,6 @@ botocore==1.34.142
 cachetools==5.3.2
 certifi==2023.7.22
 cffi==1.16.0
-chainlit==1.1.306
 chardet==5.2.0
 charset-normalizer==3.2.0
 chevron==0.14.0
