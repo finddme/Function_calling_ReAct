@@ -1,3 +1,4 @@
+pydantic>=1.10.0,<2.0.0
 setuptools==75.6.0
 absl-py==2.1.0
 accelerate==0.25.0
@@ -356,4 +357,3 @@ wsproto==1.2.0
 xxhash==3.4.1
 yarl==1.9.4
 zipp==1.0.0
-pydantic>=1.10.0,<2.0.0
