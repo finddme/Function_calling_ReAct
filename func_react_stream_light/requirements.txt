@@ -1,6 +1,5 @@
 torch==2.1.2
 xformers==0.0.23.post1
-crawl4ai[sync]
 git+https://github.com/unclecode/crawl4ai.git@e5e6a34e8097cb5ff72c026b19859b5b98246378
 streamlit_chat 
 numpy==1.25.0
