@@ -3,6 +3,7 @@ os.system("pip install crawl4ai")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
+os.system("pip install --upgrade playwright")
 os.system("sudo playwright install-deps ")
 os.system("sudo apt-get update  -y")
 os.system("sudo apt-get upgrade  -y")
@@ -61,7 +62,7 @@ os.system("""sudo apt-get install -y \
                                         fonts-wqy-zenhei \
                                         fonts-tlwg-loma-otf \
                                         fonts-freefont-ttf""")
-
+os.environ['PYTHONPATH'] = os.getcwd()
 import argparse
 import six, torch
 from app.direct_streamlit import streamlit_app
@@ -71,9 +72,16 @@ from utils.config import *
 import os
 from action_agents.search_engine import Blog
 
-async def main(args):
-    await streamlit_app(args)
+from playwright.sync_api import sync_playwright
+  
+# async def main(args):
+#     await streamlit_app(args)
 
+async def main(args):
+    browser = p.chromium.launch()
+    await streamlit_app(args)
+    browser.close()
+  
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
