@@ -9,7 +9,7 @@ langserve
 fastapi
 httpx
 langgraph
-groq
+groq==0.13.0
 pydantic>=1.10.0,<2.0.0
 setuptools==75.6.0
 absl-py==2.1.0
