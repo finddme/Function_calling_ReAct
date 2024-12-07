@@ -78,12 +78,20 @@ import streamlit as st
 import os
 import subprocess
 
-# Playwright 브라우저 설치
-def install_playwright_browser():
+def install_system_dependencies():
     try:
-        subprocess.run(['playwright', 'install', 'chromium'], check=True)
+        packages = [
+            "libnss3", "libnspr4", "libatk1.0-0", "libatk-bridge2.0-0",
+            "libcups2", "libdrm2", "libxcomposite1", "libxdamage1",
+            "libxfixes3", "libxrandr2", "libgbm1", "libxkbcommon0",
+            "libpango-1.0-0", "libcairo2", "libasound2", "libatspi2.0-0"
+        ]
+        subprocess.run(["apt-get", "update"], check=True)
+        subprocess.run(["apt-get", "install", "-y"] + packages, check=True)
+
+        subprocess.run(["playwright", "install", "chromium"], check=True)
     except Exception as e:
-        st.error(f"브라우저 설치 중 오류 발생: {str(e)}")
+        st.error(f"Dependencies installation failed: {str(e)}")
       
 async def main(args):
     install_playwright_browser()
