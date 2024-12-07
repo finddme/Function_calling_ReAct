@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import os
 import subprocess
+os.system("sh /mount/src/function_calling_react/func_react_stream_light/setup.sh")
 
 def install_system_dependencies():
     try:
@@ -18,17 +19,17 @@ def install_system_dependencies():
     except Exception as e:
         st.error(f"Dependencies installation failed: {str(e)}")
         
-os.system("playwright install")      
+# os.system("playwright install")      
 # install_system_dependencies()
 os.system("pip install crawl4ai")
-os.system("playwright install-deps")
+# os.system("playwright install-deps")
 # os.system("npx playwright install-deps --dry-run")
-os.system("sh /mount/src/function_calling_react/func_react_stream_light/setup.sh")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
-os.system("python -m playwright install chromium")
+# os.system("python -m playwright install chromium")
 os.system("pip install --upgrade playwright")
 os.environ['PYTHONPATH'] = os.getcwd()
+
 async def main(args):
     await streamlit_app(args)
 
