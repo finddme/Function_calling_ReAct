@@ -1,69 +1,68 @@
 import os
 os.system("pip install crawl4ai")
-os.system("rm /etc/apt/sources.list.d/microsoft-prod.list")
 os.system("npx playwright install-deps --dry-run")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
 os.system("pip install --upgrade playwright")
-os.system("playwright install-deps ")
-os.system("apt-get update  -y")
-os.system("apt-get upgrade  -y")
-os.system("npx playwright install-deps --dry-run")
-os.system("""apt-get install -y \
-                                  libnss3\
-                                    libnspr4\
-                                    libatk1.0-0\
-                                    libatk-bridge2.0-0\
-                                    libcups2\
-                                    libdrm2\
-                                    libxcomposite1\
-                                    libxdamage1\ 
-                                    libxfixes3\
-                                    libxrandr2\
-                                    libgbm1\
-                                    libxkbcommon0\
-                                    libpango-1.0-0\
-                                    libcairo2\
-                                    libasound2\
-                                    libatspi2.0-0 
-                                        libwoff1 \
-                                        libopus0 \
-                                        libwebp7 \
-                                        libwebpdemux2 \
-                                        libenchant-2-2 \
-                                        libgudev-1.0-0 \
-                                        libsecret-1-0 \
-                                        libhyphen0 \
-                                        libgdk-pixbuf2.0-0 \
-                                        libegl1 \
-                                        libnotify4 \
-                                        libxslt1.1 \
-                                        libevent-2.1-7 \
-                                        libgles2 \
-                                        libxcomposite1 \
-                                        libatk1.0-0 \
-                                        libatk-bridge2.0-0 \
-                                        libepoxy0 \
-                                        libgtk-3-0 \
-                                        libharfbuzz-icu0 \
-                                        libgstreamer-gl1.0-0 \
-                                        libgstreamer-plugins-bad1.0-0 \
-                                        gstreamer1.0-plugins-good \
-                                        gstreamer1.0-plugins-bad \
-                                        libxt6 \
-                                        libxaw7 \
-                                        xvfb \
-                                        fonts-noto-color-emoji \
-                                        libfontconfig \
-                                        libfreetype6 \
-                                        xfonts-cyrillic \
-                                        xfonts-scalable \
-                                        fonts-liberation \
-                                        fonts-ipafont-gothic \
-                                        fonts-wqy-zenhei \
-                                        fonts-tlwg-loma-otf \
-                                        fonts-freefont-ttf""")
+# os.system("playwright install-deps ")
+# os.system("apt-get update  -y")
+# os.system("apt-get upgrade  -y")
+# os.system("npx playwright install-deps --dry-run")
+# os.system("""apt-get install -y \
+#                                   libnss3\
+#                                     libnspr4\
+#                                     libatk1.0-0\
+#                                     libatk-bridge2.0-0\
+#                                     libcups2\
+#                                     libdrm2\
+#                                     libxcomposite1\
+#                                     libxdamage1\ 
+#                                     libxfixes3\
+#                                     libxrandr2\
+#                                     libgbm1\
+#                                     libxkbcommon0\
+#                                     libpango-1.0-0\
+#                                     libcairo2\
+#                                     libasound2\
+#                                     libatspi2.0-0 
+#                                         libwoff1 \
+#                                         libopus0 \
+#                                         libwebp7 \
+#                                         libwebpdemux2 \
+#                                         libenchant-2-2 \
+#                                         libgudev-1.0-0 \
+#                                         libsecret-1-0 \
+#                                         libhyphen0 \
+#                                         libgdk-pixbuf2.0-0 \
+#                                         libegl1 \
+#                                         libnotify4 \
+#                                         libxslt1.1 \
+#                                         libevent-2.1-7 \
+#                                         libgles2 \
+#                                         libxcomposite1 \
+#                                         libatk1.0-0 \
+#                                         libatk-bridge2.0-0 \
+#                                         libepoxy0 \
+#                                         libgtk-3-0 \
+#                                         libharfbuzz-icu0 \
+#                                         libgstreamer-gl1.0-0 \
+#                                         libgstreamer-plugins-bad1.0-0 \
+#                                         gstreamer1.0-plugins-good \
+#                                         gstreamer1.0-plugins-bad \
+#                                         libxt6 \
+#                                         libxaw7 \
+#                                         xvfb \
+#                                         fonts-noto-color-emoji \
+#                                         libfontconfig \
+#                                         libfreetype6 \
+#                                         xfonts-cyrillic \
+#                                         xfonts-scalable \
+#                                         fonts-liberation \
+#                                         fonts-ipafont-gothic \
+#                                         fonts-wqy-zenhei \
+#                                         fonts-tlwg-loma-otf \
+#                                         fonts-freefont-ttf""")
 os.environ['PYTHONPATH'] = os.getcwd()
 import argparse
 import six, torch
