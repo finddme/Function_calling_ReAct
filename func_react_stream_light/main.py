@@ -58,20 +58,9 @@ import os
 #                                         fonts-tlwg-loma-otf \
 #                                         fonts-freefont-ttf""")
 
-import argparse
-import six, torch
-from app.direct_streamlit import streamlit_app
-import asyncio
-from utils.doc_search import *
-from utils.config import *
-import os
-from action_agents.search_engine import Blog
-from playwright.sync_api import sync_playwright
-
 import streamlit as st
 import os
 import subprocess
-
 def install_system_dependencies():
     try:
         packages = [
@@ -105,7 +94,17 @@ async def main(args):
 #         browser = p.chromium.launch()
 #         await streamlit_app(args)
 #         browser.close()
-  
+
+import argparse
+import six, torch
+from app.direct_streamlit import streamlit_app
+import asyncio
+from utils.doc_search import *
+from utils.config import *
+import os
+from action_agents.search_engine import Blog
+from playwright.sync_api import sync_playwright
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
