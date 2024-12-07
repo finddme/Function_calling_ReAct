@@ -1,10 +1,4 @@
 import os
-os.system("pip install crawl4ai")
-os.system("npx playwright install-deps --dry-run")
-os.system("pip install nest-asyncio")
-os.system("crawl4ai-setup")
-os.system("python -m playwright install chromium")
-os.system("pip install --upgrade playwright")
 # os.system("playwright install-deps ")
 # os.system("apt-get update  -y")
 # os.system("apt-get upgrade  -y")
@@ -92,9 +86,16 @@ def install_system_dependencies():
         subprocess.run(["playwright", "install", "chromium"], check=True)
     except Exception as e:
         st.error(f"Dependencies installation failed: {str(e)}")
-      
+        
+install_playwright_browser()
+os.system("pip install crawl4ai")
+os.system("npx playwright install-deps --dry-run")
+os.system("pip install nest-asyncio")
+os.system("crawl4ai-setup")
+os.system("python -m playwright install chromium")
+os.system("pip install --upgrade playwright")
+
 async def main(args):
-    install_playwright_browser()
     await streamlit_app(args)
 
 # async def main(args):
