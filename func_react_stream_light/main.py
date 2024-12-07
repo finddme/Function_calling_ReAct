@@ -57,7 +57,7 @@ import os
 #                                         fonts-wqy-zenhei \
 #                                         fonts-tlwg-loma-otf \
 #                                         fonts-freefont-ttf""")
-os.environ['PYTHONPATH'] = os.getcwd()
+
 import argparse
 import six, torch
 from app.direct_streamlit import streamlit_app
@@ -87,16 +87,16 @@ def install_system_dependencies():
     except Exception as e:
         st.error(f"Dependencies installation failed: {str(e)}")
         
+os.system("playwright install")      
 install_playwright_browser()
 os.system("pip install crawl4ai")
-os.system("playwright install")
 os.system("playwright install-deps")
 # os.system("npx playwright install-deps --dry-run")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
 os.system("pip install --upgrade playwright")
-
+os.environ['PYTHONPATH'] = os.getcwd()
 async def main(args):
     await streamlit_app(args)
 
