@@ -89,7 +89,9 @@ def install_system_dependencies():
         
 install_playwright_browser()
 os.system("pip install crawl4ai")
-os.system("npx playwright install-deps --dry-run")
+os.system("playwright install")
+os.system("playwright install-deps")
+# os.system("npx playwright install-deps --dry-run")
 os.system("pip install nest-asyncio")
 os.system("crawl4ai-setup")
 os.system("python -m playwright install chromium")
