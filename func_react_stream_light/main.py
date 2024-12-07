@@ -73,15 +73,27 @@ from utils.config import *
 import os
 from action_agents.search_engine import Blog
 from playwright.sync_api import sync_playwright
-  
-# async def main(args):
-#     await streamlit_app(args)
 
+import streamlit as st
+import os
+import subprocess
+
+# Playwright 브라우저 설치
+def install_playwright_browser():
+    try:
+        subprocess.run(['playwright', 'install', 'chromium'], check=True)
+    except Exception as e:
+        st.error(f"브라우저 설치 중 오류 발생: {str(e)}")
+      
 async def main(args):
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        await streamlit_app(args)
-        browser.close()
+    install_playwright_browser()
+    await streamlit_app(args)
+
+# async def main(args):
+#     with sync_playwright() as p:
+#         browser = p.chromium.launch()
+#         await streamlit_app(args)
+#         browser.close()
   
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
