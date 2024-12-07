@@ -1,4 +1,3 @@
-import os
 # os.system("playwright install-deps ")
 # os.system("apt-get update  -y")
 # os.system("apt-get upgrade  -y")
@@ -57,10 +56,11 @@ import os
 #                                         fonts-wqy-zenhei \
 #                                         fonts-tlwg-loma-otf \
 #                                         fonts-freefont-ttf""")
-
+import os
 import streamlit as st
 import os
 import subprocess
+
 def install_system_dependencies():
     try:
         packages = [
@@ -77,7 +77,7 @@ def install_system_dependencies():
         st.error(f"Dependencies installation failed: {str(e)}")
         
 os.system("playwright install")      
-install_playwright_browser()
+install_system_dependencies()
 os.system("pip install crawl4ai")
 os.system("playwright install-deps")
 # os.system("npx playwright install-deps --dry-run")
