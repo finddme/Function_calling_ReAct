@@ -1,3 +1,5 @@
+playwright
+!./setup.sh
 torch==2.1.2
 xformers==0.0.23.post1
 crawl4ai[all] @ git+https://github.com/unclecode/crawl4ai.git
