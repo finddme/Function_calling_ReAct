@@ -22,7 +22,7 @@ async def main():
     }
     </style>
     """, unsafe_allow_html=True)
-    st.markdown(""":orange[**Law | Finance | Ai | Conversation | Web search**]""", 
+    st.markdown(""":orange[**Law | Finance | Ai | Conversation**]""", 
                 unsafe_allow_html=True)
 
     api_url = "https://d090-222-233-253-190.ngrok-free.app/chat"
